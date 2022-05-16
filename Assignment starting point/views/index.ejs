@@ -7,8 +7,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="/javascripts/index.js"></script>
     <script src="/javascripts/canvas.js"></script>
-    <script src="/javascripts/bootstrap_js"></script>
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/indexdDB.js"></script>
+    <script src="/javascripts/database.js" type="module"></script>
+    <script src="/javascripts/idb/index.js"  type="module"></script>
     <link rel="stylesheet" href="/stylesheets/bootstrap_css/bootstrap.css">
+
 </head>
 <body onload="init()">
 <div id="initial_form" style="display: block">
@@ -24,7 +28,7 @@
             <button id="roomNoGenerator" onclick="generateRoom()">Generate Room</button>
         </p>
         <p style=" width: 100%"><label for="image_url"> Image (URL) </label><input type="text" id="image_url" name="image_url"></p>
-        <button id="connect" onclick="connectToRoom()">Connect</button>
+        <button id="connect" onclick="connectToRoom();submitForm();get_history()">Connect</button>
     </form>
 </div>
 <div id="chat_interface" style="display: none">
@@ -38,12 +42,13 @@
     </div>
 <!--    </div>-->
     <div id="history" style="height: 35vh" class="boxed scrolling" ></div>
+
     <div id="input" style="height: 5vh" class=" boxed">
         <form onsubmit="return false;" style="width: 100%">
             <p>
                 <label for="name"> chat: </label>
                 <input type="text" id="chat_input" name="chat_input" style="width: 80%">
-                <button id="chat_send" onclick="sendChatText()">Send</button>
+                <button id="chat_send" onclick="sendChatText();submitForm()">Send</button>
             </p>
         </form>
     </div>

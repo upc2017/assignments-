@@ -5,5 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Image Browsing' });
 });
-
+router.get('/list',function (req,res,next){
+  res.render('list')
+})
 module.exports = router;

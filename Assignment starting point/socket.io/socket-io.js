@@ -23,4 +23,28 @@ exports.init = function (io) {
             } catch (e) {
             }
         });
+
+    // the canvas namespace
+    const canvas = io
+        .of('/canvas')
+        .on('connection', function (socket) {
+            try {
+                /**
+                 * it creates or joins a room
+                 */
+                socket.on('create or join', function (room, userId) {
+                    socket.join(room);
+                    canvas.to(room).emit('joined', room, userId);
+                });
+
+                socket.on('canvas', function (room, userId, chatText) {
+                    canvas.to(room).emit('canvas', room, userId, chatText);
+                });
+
+                socket.on('disconnect', function () {
+                    console.log('someone disconnected');
+                });
+            } catch (e) {
+            }
+        });
 }

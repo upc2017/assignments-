@@ -1,6 +1,7 @@
 let name = null;
 let roomNo = null;
 let chat = io.connect('/chat');
+let canvas = io.connect('/canvas')
 
 /**
  * called by <body onload>
@@ -70,7 +71,7 @@ function connectToRoom() {
     if (!name) name = 'Unknown-' + Math.random();
     //@todo join the room
     chat.emit('create or join', roomNo, name);
-    initCanvas(socket, imageUrl);
+    initCanvas(canvas, imageUrl);
     hideLoginInterface(roomNo, name);
 }
 

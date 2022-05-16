@@ -13,6 +13,11 @@ function init() {
     document.getElementById('initial_form').style.display = 'block';
     document.getElementById('chat_interface').style.display = 'none';
 
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+            .register('./service-worker.js')
+            .then(function() { console.log('Service Worker Registered'); });
+    }
     //@todo initialise the socket operations
     initChatSocket();
 }

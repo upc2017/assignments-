@@ -1,7 +1,6 @@
 let name = null;
 let roomNo = null;
-let socket=null;
-
+let chat = io.connect('/chat');
 
 /**
  * called by <body onload>
@@ -13,7 +12,31 @@ function init() {
     document.getElementById('initial_form').style.display = 'block';
     document.getElementById('chat_interface').style.display = 'none';
 
-    //@todo here is where you should initialise the socket operations as described in teh lectures (room joining, chat message receipt etc.)
+    //@todo initialise the socket operations
+    initChatSocket();
+}
+
+/**
+ * it initialises the socket for /chat
+ */
+function initChatSocket() {
+    // called when someone joins the room. If it is someone else it notifies the joining of the room
+    chat.on('joined', function (room, userId) {
+        if (userId === name) {
+            // it enters the chat
+            hideLoginInterface(room, userId);
+        } else {
+            // notifies that someone has joined the room
+            writeOnChatHistory('<b>' + userId + '</b>' + ' joined room ' + room);
+        }
+    });
+    // called when a message is received
+    chat.on('chat', function (room, userId, chatText) {
+        let who = userId
+        if (userId === name) who = 'Me';
+        writeOnChatHistory('<b>' + who + ':</b> ' + chatText);
+    });
+
 }
 
 /**
@@ -33,6 +56,7 @@ function generateRoom() {
 function sendChatText() {
     let chatText = document.getElementById('chat_input').value;
     // @todo send the chat message
+    chat.emit('chat', roomNo, name, chatText);
 }
 
 /**
@@ -45,6 +69,7 @@ function connectToRoom() {
     let imageUrl= document.getElementById('image_url').value;
     if (!name) name = 'Unknown-' + Math.random();
     //@todo join the room
+    chat.emit('create or join', roomNo, name);
     initCanvas(socket, imageUrl);
     hideLoginInterface(roomNo, name);
 }
@@ -54,7 +79,7 @@ function connectToRoom() {
  * this is to be called when the socket receives the chat message (socket.on ('message'...)
  * @param text: the text to append
  */
-function writeOnHistory(text) {
+function writeOnChatHistory(text) {
     if (text==='') return;
     let history = document.getElementById('history');
     let paragraph = document.createElement('p');

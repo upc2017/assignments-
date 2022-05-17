@@ -48,7 +48,8 @@
                                     <input type="text" id="creat_title" name="creat_title">
                                 </p>
                                 <p style=" width: 100%"><label for="creat_image_url"> Image (URL) </label>
-                                    <input type="text" id="creat_image_url" name="creat_image_url"></p>
+                                    <input type="text" id="creat_image_url" name="creat_image_url"><input type="file" class="upload"></p>
+                                <img src="" alt="" id="viewimg">
                                 <p><label for="creat_Details"> Story Details </label>
                                     <input type="text" id="creat_Details" name="creat_Details">
                                 </p>
@@ -112,5 +113,31 @@
         </div>
     </div>
 </div>
+<script>
+    $(".upload").change(function() {
+        //把选择的图片显示到img上
+        var fileObj = $(this)[0];
+        var windowURL = window.URL || window.webkitURL;
+        var dataURL;
+        var $img = $("#viewimg");
+
+
+        if(fileObj && fileObj.files && fileObj.files[0]) {
+            dataURL = windowURL.createObjectURL(fileObj.files[0]);//要显示图片的路径
+            $img.attr("src", dataURL);//显示图片
+
+            //图片转换成base64
+            var reader = new FileReader();
+            reader.readAsDataURL(this.files[0]);//这一步是关键
+
+            reader.onload = function (e){
+                var base64Img=e.target.result;//这一步是关键
+                console.log(base64Img)
+                let inputurl=document.getElementById("creat_image_url");
+                inputurl.value=base64Img
+            }
+        }
+    })
+</script>
 </body>
 </html>

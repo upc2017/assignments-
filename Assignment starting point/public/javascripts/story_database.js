@@ -42,6 +42,7 @@ async function initStoryDatabase(){
                     });
                     sumsDB.createIndex('name', 'creat_name', {unique: false, multiEntry: true});
                     sumsDB.createIndex('time', 'time', {unique: false, multiEntry: true});
+                    sumsDB.createIndex('storyDetails', 'creat_Details', {unique: false, multiEntry: true});
                 }
             }
         });

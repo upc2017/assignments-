@@ -50,7 +50,10 @@ function generateRoom() {
     roomNo = Math.round(Math.random() * 10000);
     document.getElementById('roomNo').value = 'R' + roomNo;
 }
-
+function creat_generateRoom() {
+    roomNo = Math.round(Math.random() * 10000);
+    document.getElementById('creat_roomNo').value = 'R' + roomNo;
+}
 /**
  * called when the Send button is pressed. It gets the text to send from the interface
  * and sends the message via  socket

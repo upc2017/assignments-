@@ -24,44 +24,44 @@ import * as idb from 'https://cdn.jsdelivr.net/npm/idb@7/+esm';
  */
 let db;
 
-const CHAT_DB_NAME= 'db_chat';
-const CHAT_STORE_NAME= 'store_chat';
+const STORY_DB_NAME= 'db_story';
+const STORY_STORE_NAME= 'store_story';
 
 /**
  * it inits the database and creates an index for the sum field
  */
-async function initDatabase(){
+async function initStoryDatabase(){
     if (!db) {
         //判断有没有数据库Determine if there is a database
-        db = await idb.openDB(CHAT_DB_NAME, 2, {
+        db = await idb.openDB(STORY_DB_NAME, 1, {
             upgrade(upgradeDb, oldVersion, newVersion) {
-                if (!upgradeDb.objectStoreNames.contains(CHAT_STORE_NAME)) {
-                    let sumsDB = upgradeDb.createObjectStore(CHAT_STORE_NAME, {
+                if (!upgradeDb.objectStoreNames.contains(STORY_STORE_NAME)) {
+                    let sumsDB = upgradeDb.createObjectStore(STORY_STORE_NAME, {
                         keyPath: 'id',
                         autoIncrement: true
                     });
-                    sumsDB.createIndex('name', 'name', {unique: false, multiEntry: true});
-                    sumsDB.createIndex('roomNo', 'roomNo', {unique: false, multiEntry: true});
+                    sumsDB.createIndex('name', 'creat_name', {unique: false, multiEntry: true});
+                    sumsDB.createIndex('time', 'time', {unique: false, multiEntry: true});
                 }
             }
         });
         console.log('db created');
     }
 }
-window.initDatabase= initDatabase;
+window.initStoryDatabase= initStoryDatabase;
 /**
  * it saves the sum into the database sum保存到数据库
  * if the database is not supported, it will use localstorage
  * @param sumObject: name,roomNo,image_url,chat_input
  */
-async function storeSumData(sumObject) {
+async function storeStoryData(sumObject) {
     console.log('inserting: '+JSON.stringify(sumObject));
     if (!db)
-        await initDatabase();
+        await initStoryDatabase();
     if (db) {
         try{
-            let tx = await db.transaction(CHAT_STORE_NAME, 'readwrite');
-            let store = await tx.objectStore(CHAT_STORE_NAME);
+            let tx = await db.transaction(STORY_STORE_NAME, 'readwrite');
+            let store = await tx.objectStore(STORY_STORE_NAME);
             await store.put(sumObject);
             await  tx.complete;
             console.log('added item to the store! 仓库里增加了一个项目!'+ JSON.stringify(sumObject));
@@ -71,7 +71,7 @@ async function storeSumData(sumObject) {
     }
 
 }
-window.storeSumData= storeSumData;
+window.storeStoryData= storeStoryData;
 
 /**
  * it retrieves all the numbers that have summed to sumValue from the database它从数据库中检索出所有与sumValue相加的数字。
@@ -85,8 +85,8 @@ async function getSumData(sumValue) {
         await initDatabase();
     if (db) {
         console.log('fetching: ' + sumValue);
-        let tx = await db.transaction(CHAT_STORE_NAME, 'readonly');
-        let store = await tx.objectStore(CHAT_STORE_NAME);
+        let tx = await db.transaction(STORY_STORE_NAME, 'readonly');
+        let store = await tx.objectStore(STORY_STORE_NAME);
         let index = await store.index('name');
         let readingsList = await index.getAll(IDBKeyRange.only(sumValue));
         await tx.complete;

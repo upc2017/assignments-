@@ -9,6 +9,7 @@
     <script src="/javascripts/canvas.js"></script>
     <script src="/javascripts/jquery.min.js"></script>
     <script src="/javascripts/indexedDB.js"></script>
+    <script src="/javascripts/bootstrap_js/bootstrap.min.js"></script>
     <script src="/javascripts/database.js" type="module"></script>
     <script src="/javascripts/idb/index.js"  type="module"></script>
     <link rel="stylesheet" href="/stylesheets/bootstrap_css/bootstrap.css">
@@ -28,7 +29,7 @@
             <button id="roomNoGenerator" onclick="generateRoom()">Generate Room</button>
         </p>
         <p style=" width: 100%"><label for="image_url"> Image (URL) </label><input type="text" id="image_url" name="image_url"></p>
-        <button id="connect" onclick="connectToRoom();submitForm();get_history()">Connect</button>
+        <button id="connect" onclick="connectToRoom();chatSubmitForm();get_history()">Connect</button>
     </form>
 </div>
 <div id="chat_interface" style="display: none">
@@ -48,7 +49,7 @@
             <p>
                 <label for="name"> chat: </label>
                 <input type="text" id="chat_input" name="chat_input" style="width: 80%">
-                <button id="chat_send" onclick="sendChatText();submitForm()">Send</button>
+                <button id="chat_send" onclick="sendChatText();chatSubmitForm()">Send</button>
             </p>
         </form>
     </div>
@@ -70,7 +71,7 @@
         <p><label for="creat_Details"> story Details </label>
             <input type="text" id="creat_Details" name="creat_Details">
         </p>
-        <button id="creat_connect" onclick="connectToRoom();submitForm();get_history()">Creat</button>
+        <button id="creat_connect" onclick="connectToRoom();chatSubmitForm();get_history()">Creat</button>
     </form>
 </div>
 <a class="btn btn-primary" href="list" role="button">Story list</a>

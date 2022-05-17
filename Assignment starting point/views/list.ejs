@@ -15,14 +15,14 @@
     <script src="/javascripts/indexedDB.js"></script>
     <script src="/javascripts/bootstrap_js/bootstrap.min.js"></script>
     <script src="/javascripts/database.js" type="module"></script>
-    <script src="/javascripts/idb/index.js"  type="module"></script>
+    <script src="/javascripts/idb/index.js" type="module"></script>
     <script src="/javascripts/story_database.js" type="module"></script>
     <link rel="stylesheet" href="/stylesheets/bootstrap_css/bootstrap.min.css">
 </head>
 <body>
 
 <div class="container-fluid p-0 row">b
-<!--    Creat a story modal-->
+    <!--    Creat a story modal-->
     <div class="ms-5 mt-5">
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -38,7 +38,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-<!--                        creat a story form-->
+                        <!--                        creat a story form-->
                         <div>
                             <form onsubmit="return false;">
                                 <p><label for="creat_name"> Your name </label>
@@ -49,24 +49,26 @@
                                 </p>
                                 <p style=" width: 100%"><label for="creat_image_url"> Image (URL) </label>
                                     <input type="text" id="creat_image_url" name="creat_image_url"></p>
-                                <p><label for="creat_Details"> story Details </label>
+                                <p><label for="creat_Details"> Story Details </label>
                                     <input type="text" id="creat_Details" name="creat_Details">
                                 </p>
-                                <button id="creat_connect" onclick="storySubmitForm();get_story_history()">Creat</button>
+                                <button id="creat_connect" onclick="storySubmitForm();get_story_history()">Create
+                                </button>
                             </form>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Creat</button>
+                        <button type="button" class="btn btn-primary" >Create</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<!--    Story Cards-->
-    <div class="card m-5 col-3"  style="width: 18rem;">
-        <img src="https://london.ac.uk/sites/default/files/styles/max_1300x1300/public/2018-10/london-aerial-cityscape-river-thames_1.jpg?itok=6LenFxuz" class="card-img-top" alt="...">
+    <!--    Story Cards-->
+    <div class="card m-5 col-3" style="width: 18rem;">
+        <img src="https://london.ac.uk/sites/default/files/styles/max_1300x1300/public/2018-10/london-aerial-cityscape-river-thames_1.jpg?itok=6LenFxuz"
+             class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title">Beautiful london</h5>
             <p class="card-text">Dit is het uitzicht over Londen</p>
@@ -79,8 +81,9 @@
             <a href="/" class="btn btn-primary">Enter the Story</a>
         </div>
     </div>
-    <div class="card m-5 col-3"  style="width: 18rem;">
-        <img src="https://london.ac.uk/sites/default/files/styles/max_1300x1300/public/2018-10/london-aerial-cityscape-river-thames_1.jpg?itok=6LenFxuz" class="card-img-top" alt="...">
+    <div class="card m-5 col-3" style="width: 18rem;">
+        <img src="https://london.ac.uk/sites/default/files/styles/max_1300x1300/public/2018-10/london-aerial-cityscape-river-thames_1.jpg?itok=6LenFxuz"
+             class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title">Beautiful london</h5>
             <p class="card-text">Dit is het uitzicht over Londen</p>
@@ -93,8 +96,9 @@
             <a href="/" class="btn btn-primary">Enter the Story</a>
         </div>
     </div>
-    <div class="card m-5 col-3"  style="width: 18rem;">
-        <img src="https://london.ac.uk/sites/default/files/styles/max_1300x1300/public/2018-10/london-aerial-cityscape-river-thames_1.jpg?itok=6LenFxuz" class="card-img-top" alt="...">
+    <div class="card m-5 col-3" style="width: 18rem;">
+        <img src="https://london.ac.uk/sites/default/files/styles/max_1300x1300/public/2018-10/london-aerial-cityscape-river-thames_1.jpg?itok=6LenFxuz"
+             class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title">Beautiful london</h5>
             <p class="card-text">Dit is het uitzicht over Londen</p>
@@ -107,8 +111,6 @@
             <a href="/" class="btn btn-primary">Enter the Story</a>
         </div>
     </div>
-
-    <div id="show_story">111</div>
 </div>
 </body>
 </html>

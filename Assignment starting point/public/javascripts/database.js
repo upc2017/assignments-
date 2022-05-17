@@ -88,6 +88,7 @@ async function getSumData(sumValue) {
         let tx = await db.transaction(CHAT_STORE_NAME, 'readonly');
         let store = await tx.objectStore(CHAT_STORE_NAME);
         let index = await store.index('name');
+        console.log(index)
         let readingsList = await index.getAll(IDBKeyRange.only(sumValue));
         await tx.complete;
         if (readingsList && readingsList.length > 0) {
@@ -109,3 +110,24 @@ async function getSumData(sumValue) {
 
 }
 window.getSumData= getSumData;
+
+// async function displayData() {
+//     if(db){
+//         let tx = await db.transaction(CHAT_STORE_NAME, 'readonly');
+//         let store = await tx.objectStore(CHAT_STORE_NAME);
+//         store.openCursor().onsuccess = function(event) {
+//             var cursor = event.target.result;
+//             console.log(cursor)
+//             if(cursor) {
+//                 var listItem = document.createElement('li');
+//                 listItem.innerHTML = cursor.value.albumTitle + ', ' + cursor.value.year;
+//                 list.appendChild(listItem);
+//
+//                 cursor.continue();
+//             } else {
+//                 console.log('Entries all displayed.');
+//             }
+//         };
+//     }
+//
+// }window.displayData= displayData;

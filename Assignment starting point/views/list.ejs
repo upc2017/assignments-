@@ -20,8 +20,8 @@
     <link rel="stylesheet" href="/stylesheets/bootstrap_css/bootstrap.min.css">
 </head>
 <body>
+
 <div class="container-fluid p-0 row">b
-    <div><a href="/" class="btn btn-primary">Enter the Home</a></div>
 <!--    Creat a story modal-->
     <div class="ms-5 mt-5">
         <!-- Button trigger modal -->
@@ -44,12 +44,15 @@
                                 <p><label for="creat_name"> Your name </label>
                                     <input type="text" id="creat_name" name="creat_name">
                                 </p>
+                                <p><label for="creat_title"> Story title </label>
+                                    <input type="text" id="creat_title" name="creat_title">
+                                </p>
                                 <p style=" width: 100%"><label for="creat_image_url"> Image (URL) </label>
                                     <input type="text" id="creat_image_url" name="creat_image_url"></p>
                                 <p><label for="creat_Details"> story Details </label>
                                     <input type="text" id="creat_Details" name="creat_Details">
                                 </p>
-                                <button id="creat_connect" onclick="storySubmitForm();get_history()">Creat</button>
+                                <button id="creat_connect" onclick="storySubmitForm();get_story_history()">Creat</button>
                             </form>
                         </div>
                     </div>
@@ -73,7 +76,7 @@
             <li class="list-group-item">Time</li>
         </ul>
         <div class="card-body">
-            <a href="/" class="btn btn-primary">Enter the room</a>
+            <a href="/" class="btn btn-primary">Enter the Story</a>
         </div>
     </div>
     <div class="card m-5 col-3"  style="width: 18rem;">
@@ -87,7 +90,7 @@
             <li class="list-group-item">Time</li>
         </ul>
         <div class="card-body">
-            <a href="/" class="btn btn-primary">Enter the room</a>
+            <a href="/" class="btn btn-primary">Enter the Story</a>
         </div>
     </div>
     <div class="card m-5 col-3"  style="width: 18rem;">
@@ -101,9 +104,11 @@
             <li class="list-group-item">Time</li>
         </ul>
         <div class="card-body">
-            <a href="/" class="btn btn-primary">Enter the chat</a>
+            <a href="/" class="btn btn-primary">Enter the Story</a>
         </div>
     </div>
+
+    <div id="show_story">111</div>
 </div>
 </body>
 </html>

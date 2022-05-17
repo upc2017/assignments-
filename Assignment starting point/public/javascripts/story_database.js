@@ -43,6 +43,7 @@ async function initStoryDatabase(){
                     sumsDB.createIndex('name', 'creat_name', {unique: false, multiEntry: true});
                     sumsDB.createIndex('time', 'time', {unique: false, multiEntry: true});
                     sumsDB.createIndex('storyDetails', 'creat_Details', {unique: false, multiEntry: true});
+                    sumsDB.createIndex('storyTitle', 'creat_title', {unique: false, multiEntry: true});
                 }
             }
         });
@@ -80,33 +81,34 @@ window.storeStoryData= storeStoryData;
  * @param sumValue: a name
  * @returns objects like {name,roomNo,image_url,chat_input}
  */
-async function getSumData(sumValue) {
+async function getStoryData(sumValue) {
     console.log("666"+sumValue)
     if (!db)
-        await initDatabase();
+        await initStoryDatabase();
     if (db) {
         console.log('fetching: ' + sumValue);
         let tx = await db.transaction(STORY_STORE_NAME, 'readonly');
         let store = await tx.objectStore(STORY_STORE_NAME);
         let index = await store.index('name');
+        console.log("index:"+index)
         let readingsList = await index.getAll(IDBKeyRange.only(sumValue));
         await tx.complete;
         if (readingsList && readingsList.length > 0) {
             for (let elem of readingsList)
-                addToResults(elem);//展示聊天记录 Show chat transcript
+                addToStory(elem);//展示聊天记录 Show chat transcript
         } else {
             // if the database is not supported, we use localstorage
             const value = localStorage.getItem(sumValue);
             if (value == null)
-                addToResults();
-            else addToResults(value);
+                addToStory();
+            else addToStory(value);
         }
     } else {
         const value = localStorage.getItem(sumValue);
         if (value == null)
-            addToResults();
-        else addToResults(value);
+            addToStory();
+        else addToStory(value);
     }
 
 }
-window.getSumData= getSumData;
+window.getStoryData= getStoryData;

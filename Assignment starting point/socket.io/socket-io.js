@@ -29,16 +29,17 @@ exports.init = function (io) {
         .of('/canvas')
         .on('connection', function (socket) {
             try {
-                /**
-                 * it creates or joins a room
-                 */
-                socket.on('create or join', function (room, userId) {
+                socket.on('join', function (room, userId, imageUrl) {
                     socket.join(room);
-                    canvas.to(room).emit('joined', room, userId);
+                    canvas.to(room).emit('joined', room, userId, imageUrl);
                 });
 
-                socket.on('canvas', function (room, userId, chatText) {
-                    canvas.to(room).emit('canvas', room, userId, chatText);
+                socket.on('draw', function (room, userId, canvasWidth, canvasHeight, prevX, prevY, currX, currY, color, thickness) {
+                    canvas.to(room).emit('drawToEveryone', room, userId, canvasWidth, canvasHeight, prevX, prevY, currX, currY, color, thickness);
+                });
+
+                socket.on('clear', function (room, userId, ctx) {
+                    canvas.to(room).emit('clear', room, userId, ctx);
                 });
 
                 socket.on('disconnect', function () {

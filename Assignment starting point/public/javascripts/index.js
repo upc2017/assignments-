@@ -1,7 +1,7 @@
 let name = null;
 let roomNo = null;
 let chat = io.connect('/chat');
-let canvas = io.connect('/canvas')
+let socket = io.connect('/canvas')
 
 /**
  * called by <body onload>
@@ -14,7 +14,7 @@ function init() {
     document.getElementById('chat_interface').style.display = 'none';
 
 
-    //@todo initialise the socket operations
+    //@initialise the socket operations
     initChatSocket();
 }
 
@@ -61,7 +61,7 @@ function creat_generateRoom() {
  */
 function sendChatText() {
     let chatText = document.getElementById('chat_input').value;
-    // @todo send the chat message
+    // @send the chat message
     chat.emit('chat', roomNo, name, chatText);
 }
 
@@ -74,12 +74,12 @@ function connectToRoom() {
     name = document.getElementById('name').value;
     let imageUrl= document.getElementById('image_url').value;
     if (!name) name = 'Unknown-' + Math.random();
-    //@todo join the room
+    //@join the room
     chat.emit('create or join', roomNo, name);
-    initCanvas(canvas, imageUrl);
+    initCanvas(socket, imageUrl);
+    socket.emit('join', roomNo, name, imageUrl);
     hideLoginInterface(roomNo, name);
 }
-
 /**
  * it appends the given html text to the history div
  * this is to be called when the socket receives the chat message (socket.on ('message'...)

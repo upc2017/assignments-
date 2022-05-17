@@ -13,38 +13,37 @@
     <script src="/javascripts/canvas.js"></script>
     <script src="/javascripts/jquery.min.js"></script>
     <script src="/javascripts/indexedDB.js"></script>
+    <script src="/javascripts/bootstrap_js/bootstrap.min.js"></script>
     <script src="/javascripts/database.js" type="module"></script>
     <script src="/javascripts/idb/index.js"  type="module"></script>
-    <link rel="stylesheet" href="/stylesheets/bootstrap_css/bootstrap.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap_css/bootstrap.min.css">
 </head>
 <body>
 <div class="container-fluid p-0 row">
-    <div class="card m-5 col-3"  style="width: 18rem;">
-        <img src="https://london.ac.uk/sites/default/files/styles/max_1300x1300/public/2018-10/london-aerial-cityscape-river-thames_1.jpg?itok=6LenFxuz" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Beautiful london</h5>
-            <p class="card-text">Dit is het uitzicht over Londen</p>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">Author</li>
-            <li class="list-group-item">Time</li>
-        </ul>
-        <div class="card-body">
-            <a href="#" class="btn btn-primary">Enter the room</a>
-        </div>
-    </div>
-    <div class="card m-5 col-3"  style="width: 18rem;">
-        <img src="https://london.ac.uk/sites/default/files/styles/max_1300x1300/public/2018-10/london-aerial-cityscape-river-thames_1.jpg?itok=6LenFxuz" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Beautiful london</h5>
-            <p class="card-text">Dit is het uitzicht over Londen</p>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">Author</li>
-            <li class="list-group-item">Time</li>
-        </ul>
-        <div class="card-body">
-            <a href="#" class="btn btn-primary">Enter the room</a>
+<!--    Creat a story modal-->
+    <div class="ms-5 mt-5">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Create a story
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create a story</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Creat</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="card m-5 col-3"  style="width: 18rem;">
@@ -58,7 +57,35 @@
             <li class="list-group-item">Time</li>
         </ul>
         <div class="card-body">
-            <a href="#" class="btn btn-primary">Enter the room</a>
+            <a href="/" class="btn btn-primary">Enter the room</a>
+        </div>
+    </div>
+    <div class="card m-5 col-3"  style="width: 18rem;">
+        <img src="https://london.ac.uk/sites/default/files/styles/max_1300x1300/public/2018-10/london-aerial-cityscape-river-thames_1.jpg?itok=6LenFxuz" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Beautiful london</h5>
+            <p class="card-text">Dit is het uitzicht over Londen</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Author</li>
+            <li class="list-group-item">Time</li>
+        </ul>
+        <div class="card-body">
+            <a href="/" class="btn btn-primary">Enter the room</a>
+        </div>
+    </div>
+    <div class="card m-5 col-3"  style="width: 18rem;">
+        <img src="https://london.ac.uk/sites/default/files/styles/max_1300x1300/public/2018-10/london-aerial-cityscape-river-thames_1.jpg?itok=6LenFxuz" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Beautiful london</h5>
+            <p class="card-text">Dit is het uitzicht over Londen</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Author</li>
+            <li class="list-group-item">Time</li>
+        </ul>
+        <div class="card-body">
+            <a href="/" class="btn btn-primary">Enter the chat</a>
         </div>
     </div>
 </div>

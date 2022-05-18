@@ -35,11 +35,11 @@ exports.init = function (io) {
                 });
 
                 socket.on('draw', function (room, userId, canvasWidth, canvasHeight, prevX, prevY, currX, currY, color, thickness) {
-                    canvas.to(room).emit('drawToEveryone', room, userId, canvasWidth, canvasHeight, prevX, prevY, currX, currY, color, thickness);
+                    canvas.to(room).emit('draw', room, userId, canvasWidth, canvasHeight, prevX, prevY, currX, currY, color, thickness);
                 });
 
-                socket.on('clear', function (room, userId, ctx) {
-                    canvas.to(room).emit('clear', room, userId, ctx);
+                socket.on('clear', function (room, userId) {
+                    canvas.to(room).emit('clear', room, userId);
                 });
 
                 socket.on('disconnect', function () {

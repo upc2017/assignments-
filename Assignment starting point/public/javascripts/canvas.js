@@ -41,21 +41,50 @@ function initCanvas(sckt, imageUrl) {
                 // room, userId, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness
                 room = document.getElementById('roomNo').value;
                 userId = document.getElementById('name').value;
-                socket.emit('draw',room, userId, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness);
+                socket.emit('draw', room, userId, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness);
             }
         }
     });
 
     // this is code left in case you need to  provide a button clearing the canvas (it is suggested that you implement it)
     $('.canvas-clear').on('click', function (e) {
+        clearCanvas();
+        img.style.display = 'block';
+        resizeAndLoad();
+        // @let everyone knows you have cleared the canvas via socket.io (socket.emit...)
+        socket.emit('clear', room, userId);
+    });
+
+    /**
+     * clean the canvas
+     */
+    function clearCanvas() {
         let c_width = canvas.width;
         let c_height = canvas.height;
         ctx.clearRect(0, 0, c_width, c_height);
-        // @todo if you clear the canvas, you want to let everyone know via socket.io (socket.emit...)
-        // socket.emit('clear', room, userId, ctx);
-    });
+    }
 
-    // @todo here you want to capture the event on the socket when someone else is drawing on their canvas (socket.on...)
+    /**
+     * after clean the canvas reload image again
+     */
+    function resizeAndLoad() {
+        // resize the canvas
+        let ratioX = 1;
+        let ratioY = 1;
+        // if the screen is smaller than the img size we have to reduce the image to fit
+        if (img.clientWidth > window.innerWidth) ratioX = window.innerWidth / img.clientWidth;
+        if (img.clientHeight > window.innerHeight) ratioY = img.clientHeight / window.innerHeight;
+        let ratio = Math.min(ratioX, ratioY);
+        // resize the canvas to fit the screen and the image
+        cvx.width = canvas.width = img.clientWidth * ratio;
+        cvx.height = canvas.height = img.clientHeight * ratio;
+        // draw the image onto the canvas
+        drawImageScaled(img, cvx, ctx);
+        // hide the image element as it is not needed
+        img.style.display = 'none';
+    }
+
+    // @here you want to capture the event on the socket when someone else is drawing on their canvas (socket.on...)
     // I suggest that you receive userId, canvasWidth, canvasHeight, x1, y21, x2, y2, color, thickness
     // and then you call
     //     let ctx = canvas[0].getContext('2d');
@@ -63,13 +92,15 @@ function initCanvas(sckt, imageUrl) {
 
     // this is called when the src of the image is loaded
     // this is an async operation as it may take time
-    socket.on('drawToEveryone', function(room, userId, canvasWidth, canvasHeight, prevX, prevY, currX, currY, color, thickness){
-        // let ctx = canvas[0].getContext('2d');
+    socket.on('draw', function (room, userId, canvasWidth, canvasHeight, prevX, prevY, currX, currY, color, thickness) {
         drawOnCanvas(ctx, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness);
     });
 
-
-
+    socket.on('clear', function (room, userId) {
+        clearCanvas();
+        img.style.display = 'block';
+        resizeAndLoad();
+    });
 
     img.addEventListener('load', () => {
         // it takes time before the image size is computed and made available
@@ -77,22 +108,7 @@ function initCanvas(sckt, imageUrl) {
         let poll = setInterval(function () {
             if (img.naturalHeight) {
                 clearInterval(poll);
-                // resize the canvas
-                let ratioX=1;
-                let ratioY=1;
-                // if the screen is smaller than the img size we have to reduce the image to fit
-                if (img.clientWidth>window.innerWidth)
-                    ratioX=window.innerWidth/img.clientWidth;
-                if (img.clientHeight> window.innerHeight)
-                    ratioY= img.clientHeight/window.innerHeight;
-                let ratio= Math.min(ratioX, ratioY);
-                // resize the canvas to fit the screen and the image
-                cvx.width = canvas.width = img.clientWidth*ratio;
-                cvx.height = canvas.height = img.clientHeight*ratio;
-                // draw the image onto the canvas
-                drawImageScaled(img, cvx, ctx);
-                // hide the image element as it is not needed
-                img.style.display = 'none';
+                resizeAndLoad();
             }
         }, 10);
     });
@@ -134,13 +150,13 @@ function drawImageScaled(img, canvas, ctx) {
  */
 function drawOnCanvas(ctx, canvasWidth, canvasHeight, prevX, prevY, currX, currY, color, thickness) {
     //get the ration between the current canvas and the one it has been used to draw on the other computer
-    let ratioX= canvas.width/canvasWidth;
-    let ratioY= canvas.height/canvasHeight;
+    let ratioX = canvas.width / canvasWidth;
+    let ratioY = canvas.height / canvasHeight;
     // update the value of the points to draw
-    prevX*=ratioX;
-    prevY*=ratioY;
-    currX*=ratioX;
-    currY*=ratioY;
+    prevX *= ratioX;
+    prevY *= ratioY;
+    currX *= ratioX;
+    currY *= ratioY;
     ctx.beginPath();
     ctx.moveTo(prevX, prevY);
     ctx.lineTo(currX, currY);

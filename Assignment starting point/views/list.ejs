@@ -18,10 +18,11 @@
     <script src="/javascripts/idb/index.js" type="module"></script>
     <script src="/javascripts/story_database.js" type="module"></script>
     <link rel="stylesheet" href="/stylesheets/bootstrap_css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/list.css">
 </head>
-<body>
+<body onload="get_story_history1()">
 
-<div class="container-fluid p-0 row">b
+<div id="show_story" class="container-fluid p-0 row">
     <!--    Creat a story modal-->
     <div class="ms-5 mt-5">
         <!-- Button trigger modal -->
@@ -49,7 +50,6 @@
                                 </p>
                                 <p style=" width: 100%"><label for="creat_image_url"> Image (URL) </label>
                                     <input type="text" id="creat_image_url" name="creat_image_url"><input type="file" class="upload"></p>
-                                <img src="" alt="" id="viewimg">
                                 <p><label for="creat_Details"> Story Details </label>
                                     <input type="text" id="creat_Details" name="creat_Details">
                                 </p>
@@ -58,7 +58,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="storySubmitForm();get_story_history()">
+                        <button type="button" class="btn btn-primary " onclick="storySubmitForm();location.reload();alert('add success!')" >
                             Create
                         </button>
                     </div>
@@ -66,53 +66,26 @@
             </div>
         </div>
     </div>
-    <!--    Story Cards-->
-    <div class="card m-5 col-3" style="width: 18rem;">
-        <img src="https://london.ac.uk/sites/default/files/styles/max_1300x1300/public/2018-10/london-aerial-cityscape-river-thames_1.jpg?itok=6LenFxuz"
-             class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Beautiful london</h5>
-            <p class="card-text">Dit is het uitzicht over Londen</p>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">Author</li>
-            <li class="list-group-item">Time</li>
-        </ul>
-        <div class="card-body">
-            <a href="/" class="btn btn-primary">Enter the Story</a>
-        </div>
-    </div>
-    <div class="card m-5 col-3" style="width: 18rem;">
-        <img src="https://london.ac.uk/sites/default/files/styles/max_1300x1300/public/2018-10/london-aerial-cityscape-river-thames_1.jpg?itok=6LenFxuz"
-             class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Beautiful london</h5>
-            <p class="card-text">Dit is het uitzicht over Londen</p>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">Author</li>
-            <li class="list-group-item">Time</li>
-        </ul>
-        <div class="card-body">
-            <a href="/" class="btn btn-primary">Enter the Story</a>
-        </div>
-    </div>
-    <div class="card m-5 col-3" style="width: 18rem;">
-        <img src="https://london.ac.uk/sites/default/files/styles/max_1300x1300/public/2018-10/london-aerial-cityscape-river-thames_1.jpg?itok=6LenFxuz"
-             class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Beautiful london</h5>
-            <p class="card-text">Dit is het uitzicht over Londen</p>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">Author</li>
-            <li class="list-group-item">Time</li>
-        </ul>
-        <div class="card-body">
-            <a href="/" class="btn btn-primary">Enter the Story</a>
-        </div>
-    </div>
+<!--        Story Cards-->
+<!--    渲染-->
+<!--    <div  class="card m-5 col-3" style="width: 18rem;">-->
+<!--        <img id="render_story_img" src=""-->
+<!--             class="card-img-top" alt="...">-->
+<!--        <div class="card-body">-->
+<!--            <h5 class="card-title">This is Title</h5>-->
+<!--            <p class="card-text">This is details</p>-->
+<!--        </div>-->
+<!--        <ul class="list-group list-group-flush">-->
+<!--            <li class="list-group-item">Author</li>-->
+<!--            <li class="list-group-item">Time</li>-->
+<!--        </ul>-->
+<!--        <div class="card-body">-->
+<!--            <a href="/" class="btn btn-primary">Enter the Story</a>-->
+<!--        </div>-->
+<!--    </div>-->
+
 </div>
+
 <script>
     $(".upload").change(function() {
         //把选择的图片显示到img上

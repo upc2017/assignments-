@@ -81,17 +81,17 @@ window.storeStoryData= storeStoryData;
  * @param sumValue: a name
  * @returns objects like {name,roomNo,image_url,chat_input}
  */
-async function getStoryData(sumValue) {
-    console.log("666"+sumValue)
+async function getStoryData() {
+    // console.log("666"+sumValue)
     if (!db)
         await initStoryDatabase();
     if (db) {
-        console.log('fetching: ' + sumValue);
+        // console.log('fetching: ' + sumValue);
         let tx = await db.transaction(STORY_STORE_NAME, 'readonly');
         let store = await tx.objectStore(STORY_STORE_NAME);
         let index = await store.index('name');
-        console.log("index:"+index)
-        let readingsList = await index.getAll(IDBKeyRange.only(sumValue));
+        let readingsList = await index.getAll();//获取全部对象Get all objects
+        console.log(readingsList)
         await tx.complete;
         if (readingsList && readingsList.length > 0) {
             for (let elem of readingsList)

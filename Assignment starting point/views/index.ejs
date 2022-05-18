@@ -11,7 +11,7 @@
     <script src="/javascripts/indexedDB.js"></script>
     <script src="/javascripts/bootstrap_js/bootstrap.min.js"></script>
     <script src="/javascripts/database.js" type="module"></script>
-    <script src="/javascripts/idb/index.js"  type="module"></script>
+    <script src="/javascripts/idb/index.js" type="module"></script>
     <link rel="stylesheet" href="/stylesheets/bootstrap_css/bootstrap.css">
 
 </head>
@@ -28,22 +28,52 @@
             <input type="text" id="roomNo" name="roomNo">
             <button id="roomNoGenerator" onclick="generateRoom()">Generate Room</button>
         </p>
-        <p style=" width: 100%"><label for="image_url"> Image (URL) </label><input type="text" id="image_url" name="image_url"></p>
+        <p style=" width: 100%"><label for="image_url"> Image (URL) </label><input type="text" id="image_url"
+                                                                                   name="image_url"></p>
         <button id="connect" onclick="connectToRoom();chatSubmitForm();get_history()">Connect</button>
     </form>
 </div>
 <div id="chat_interface" style="display: none">
     <div>
-    <p><div id="who_you_are" style="display: inline" style="height: 10vh"></div>, you are in room: <div id="in_room" style="display: inline"></div>
+        <p>
+        <div id="who_you_are" style="display: inline" style="height: 10vh"></div>
+        , you are in room:
+        <div id="in_room" style="display: inline"></div>
+        <div class="d-flex flex-row align-items-center mx-2">
+            <!-- Pen colors -->
+            <div class="d-flex me-2" id="pen-color">
+                Pen color:
+                <div class="ms-2">
+                    <input class="form-check-input" type="radio" name="color-radio" id="color-red" checked>
+                    <label class="form-check-label" for="color-radio-1">Red</label>
+                </div>
+                <div class="ms-2">
+                    <input class="form-check-input" type="radio" name="color-radio" id="color-blue">
+                    <label class="form-check-label" for="color-radio-2">Blue</label>
+                </div>
+                <div class="ms-2">
+                    <input class="form-check-input" type="radio" name="color-radio" id="color-yellow">
+                    <label class="form-check-label" for="color-radio-3">Yellow</label>
+                </div>
+                <div class="ms-2">
+                    <input class="form-check-input" type="radio" name="color-radio" id="color-green">
+                    <label class="form-check-label" for="color-radio-4">Green</label>
+                </div>
+            </div>
+            <button id="share-copy" type="button" class="btn btn-outline-success btn-sm ms-2">Copy share link</button>
+            <button id="canvas-clear" type="button" class="btn btn-outline-danger btn-sm ms-2 canvas-clear">Clear
+                canvas
+            </button>
+        </div>
     </div>
     </p>
     <div style="width: 100%; height: 50vh">
-            <img id="image" height="100%" >
-            <canvas  id="canvas" ></canvas>
-            <button id="clear" class="canvas-clear" onload="">clear</button>
+        <img id="image" height="100%">
+        <canvas id="canvas"></canvas>
+
     </div>
-<!--    </div>-->
-    <div id="history" style="height: 35vh" class="boxed scrolling" ></div>
+    <!--    </div>-->
+    <div id="history" style="height: 35vh" class="boxed scrolling"></div>
 
     <div id="input" style="height: 5vh" class=" boxed">
         <form onsubmit="return false;" style="width: 100%">

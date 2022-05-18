@@ -51,10 +51,12 @@ function generateRoom() {
     roomNo = Math.round(Math.random() * 10000);
     document.getElementById('roomNo').value = 'R' + roomNo;
 }
+
 function creat_generateRoom() {
     roomNo = Math.round(Math.random() * 10000);
     document.getElementById('creat_roomNo').value = 'R' + roomNo;
 }
+
 /**
  * called when the Send button is pressed. It gets the text to send from the interface
  * and sends the message via  socket
@@ -72,21 +74,23 @@ function sendChatText() {
 function connectToRoom() {
     roomNo = document.getElementById('roomNo').value;
     name = document.getElementById('name').value;
-    let imageUrl= document.getElementById('image_url').value;
+    let imageUrl = document.getElementById('image_url').value;
     if (!name) name = 'Unknown-' + Math.random();
     //@join the room
     chat.emit('create or join', roomNo, name);
     initCanvas(socket, imageUrl);
     socket.emit('join', roomNo, name, imageUrl);
+    initPenColor()
     hideLoginInterface(roomNo, name);
 }
+
 /**
  * it appends the given html text to the history div
  * this is to be called when the socket receives the chat message (socket.on ('message'...)
  * @param text: the text to append
  */
 function writeOnChatHistory(text) {
-    if (text==='') return;
+    if (text === '') return;
     let history = document.getElementById('history');
     let paragraph = document.createElement('p');
     paragraph.innerHTML = text;
@@ -104,7 +108,39 @@ function writeOnChatHistory(text) {
 function hideLoginInterface(room, userId) {
     document.getElementById('initial_form').style.display = 'none';
     document.getElementById('chat_interface').style.display = 'block';
-    document.getElementById('who_you_are').innerHTML= userId;
-    document.getElementById('in_room').innerHTML= ' '+room;
+    document.getElementById('who_you_are').innerHTML = userId;
+    document.getElementById('in_room').innerHTML = ' ' + room;
+}
+
+/**
+ * Init pen color
+ */
+function initPenColor() {
+    // get initial color
+    updatePenColor();
+
+    // color update
+    $('#pen-color').on('click', function (e) {
+        updatePenColor();
+    });
+}
+
+/**
+ * Get the pencil color when selected
+ */
+function updatePenColor() {
+    if (document.getElementById('color-red').checked == true) {
+        c = 'red'
+    }
+    if (document.getElementById('color-blue').checked == true) {
+        c = 'blue'
+    }
+    if (document.getElementById('color-yellow').checked == true) {
+        c = 'yellow'
+    }
+    if (document.getElementById('color-green').checked == true) {
+        c = 'green'
+    }
+    color = c
 }
 

@@ -80,7 +80,7 @@ function connectToRoom() {
     chat.emit('create or join', roomNo, name);
     initCanvas(socket, imageUrl);
     socket.emit('join', roomNo, name, imageUrl);
-    initPenColor()
+    initPenColor();
     hideLoginInterface(roomNo, name);
 }
 

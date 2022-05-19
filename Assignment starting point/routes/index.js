@@ -4,12 +4,12 @@ var router = express.Router();
 var List = require('../controllers/List');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/index', function(req, res, next) {
 	res.render('index', {
 		title: 'Image Browsing'
 	});
 });
-router.get('/list', function(req, res, next) {
+router.get('/', function(req, res, next) {
 	res.render('list')
 })
 

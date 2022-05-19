@@ -48,4 +48,29 @@ exports.init = function (io) {
             } catch (e) {
             }
         });
+
+    // the knowledge graph namespace
+    const kg = io
+        .of('/kg')
+        .on('connection', function (socket) {
+            try {
+                socket.on('join', function (room, userId, imageUrl) {
+                    socket.join(room);
+                    kg.to(room).emit('joined', room, userId, imageUrl);
+                });
+
+                socket.on('postKG', function (data) {
+                    kg.to(room).emit('showKG', data);
+                });
+
+                socket.on('clear', function (room, userId) {
+                    kg.to(room).emit('clear', room, userId);
+                });
+
+                socket.on('disconnect', function () {
+                    console.log('someone disconnected');
+                });
+            } catch (e) {
+            }
+        });
 }

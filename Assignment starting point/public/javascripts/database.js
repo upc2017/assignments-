@@ -26,6 +26,7 @@ let db;
 
 const CHAT_DB_NAME= 'db_chat';
 const CHAT_STORE_NAME= 'store_chat';
+const CANVAS_STORE_NAME= 'store_canvas';
 
 /**
  * it inits the database and creates an index for the sum field
@@ -43,6 +44,14 @@ async function initDatabase(){
                     sumsDB.createIndex('name', 'name', {unique: false, multiEntry: true});
                     sumsDB.createIndex('roomNo', 'roomNo', {unique: false, multiEntry: true});
                 }
+                if (!upgradeDb.objectStoreNames.contains(CANVAS_STORE_NAME)) {
+                    let sumsDB = upgradeDb.createObjectStore(CANVAS_STORE_NAME, {
+                        keyPath: 'id',
+                        autoIncrement: true
+                    });
+                    sumsDB.createIndex('name', 'name', {unique: false, multiEntry: true});
+                }
+
             }
         });
         console.log('db created');
@@ -72,7 +81,26 @@ async function storeSumData(sumObject) {
 
 }
 window.storeSumData= storeSumData;
+//存画布的轨迹
+async function storeCanvasData(sumObject) {
+    console.log('inserting: '+JSON.stringify(sumObject));
+    if (!db)
+        await initDatabase();
+    if (db) {
+        try{
+            console.log(sumObject)
+            let tx = await db.transaction(CANVAS_STORE_NAME, 'readwrite');
+            let store = await tx.objectStore(CANVAS_STORE_NAME);
+            await store.put(sumObject);
+            await  tx.complete;
+            console.log('added item to the store! 仓库里增加了一个项目!'+ JSON.stringify(sumObject));
+        } catch(error) {
+            console.log('error: I could not store the element. Reason: '+error);
+        }
+    }
 
+}
+window.storeCanvasData= storeCanvasData;
 /**
  * it retrieves all the numbers that have summed to sumValue from the database它从数据库中检索出所有与sumValue相加的数字。
  * if the database is not supported, it will use localstorage如果数据库不被支持，它将使用本地存储。

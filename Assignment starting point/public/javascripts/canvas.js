@@ -34,7 +34,7 @@ function initCanvas(sckt, imageUrl) {
             flag = false;
         }
         // if the flag is up, the movement of the mouse draws on the canvas
-        if (e.type === 'mousemove') {
+        if (e.type === 'mousemove') {//监听事件，移动鼠标就有一个新数据
             if (flag) {
                 drawOnCanvas(ctx, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness);
                 // @if you draw on the canvas,send to everyone
@@ -42,6 +42,20 @@ function initCanvas(sckt, imageUrl) {
                 room = document.getElementById('roomNo').value;
                 userId = document.getElementById('name').value;
                 socket.emit('draw', room, userId, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness);
+                // console.log(room, userId, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness)
+                storeCanvasData({
+                    roomNo: room,
+                    name:userId,
+                    canvas_width:canvas.width,
+                    canvas_height:canvas.height,
+                    prevX:prevX,
+                    prevY:prevY,
+                    currX:currX, currY:currY,
+                    color:color,
+                    thickness:thickness
+                })
+                    .then(response => console.log('storeChat inserting worked!!'))
+                    .catch(error => console.log("error  inserting: " + JSON.stringify(error)))
             }
         }
     });
@@ -164,4 +178,11 @@ function drawOnCanvas(ctx, canvasWidth, canvasHeight, prevX, prevY, currX, currY
     ctx.lineWidth = thickness;
     ctx.stroke();
     ctx.closePath();
+
+    // console.log(prevX,prevY,currX,currY,ctx.strokeStyle,ctx.lineWidth)
+
+
+
+
+
 }

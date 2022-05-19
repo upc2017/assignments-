@@ -11,17 +11,6 @@ import * as idb from 'https://cdn.jsdelivr.net/npm/idb@7/+esm';
 ////////////////// DATABASE //////////////////
 // the database receives from the server the following structure
 
-/** class WeatherForecast{
- *  constructor (location, date, forecast, temperature, wind, precipitations) {
- *    this.location= location;
- *    this.date= date,
- *    this.forecast=forecast;
- *    this.temperature= temperature;
- *    this.wind= wind;
- *    this.precipitations= precipitations;
- *  }
- *}
- */
 let db;
 
 const STORY_DB_NAME= 'db_story';

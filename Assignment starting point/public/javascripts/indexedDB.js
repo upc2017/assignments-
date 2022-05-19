@@ -12,12 +12,22 @@ function chatSubmitForm() {
 		})
 		.then(response => console.log('storeChat inserting worked!!'))
 		.catch(error => console.log("error  inserting: " + JSON.stringify(error)))
-	//自动加载聊天记录， getSumData(XXX)，XXX特别重要！ // auto-load chat logs, getSumData(XXX), XXX is particularly important!
-	//     getSumData(data.name)
-	//         .then(response => console.log('getting sum worked!!'))
-	//         .catch(error => console.log("error  getting: "+ + JSON.stringify(error)))
 }
 
+// function chatSubmitForm(){
+// 	storeCanvasData({
+//
+// 		name:userId,
+// 		roomNo: room,
+// 		canvas_width:canvas.width,
+// 		canvas_height:canvas.height,
+//
+// 		color:color,
+// 		thickness:thickness
+// 	})
+// 		.then(response => console.log('storeChat inserting worked!!'))
+// 		.catch(error => console.log("error  inserting: " + JSON.stringify(error)))
+// }
 //存储数据到story数据库 Storing data in the story database
 function storySubmitForm() {
 	let data = serialiseForm();
@@ -117,15 +127,15 @@ const _generateGridContent = (time, title, details, name, url) => {
         <img id="render_story_img"  src="${url}"
              class=" card-img-top ">
         <div class="card-body">
-            <h5 class="card-title">${title}</h5>
+            <h3 class="card-title">${title}</h3>
             <p class="card-text">${details}</p>
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">${name}</li>
-            <li class="list-group-item">${time}</li>
+            <li class="list-group-item text-danger">by ${name}</li>
+            <li class="list-group-item">on ${time}</li>
         </ul>
         <div class="card-body">
-            <a href="/" class="btn btn-primary">Enter the Story</a>
+            <a href="/index" class="btn btn-primary">Enter the Story</a>
         </div>`;
 }
 //获取当前时间以供存储数据时调用 Called when getting the current time for storing data

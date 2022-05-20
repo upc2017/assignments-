@@ -83,26 +83,13 @@
         </div>
         <!-- Knowledge graph area -->
         <div class="col-3 card overflow-auto">
-            <div class="myRow" id="typeForm">
-                <label for="myType">Type: </label><input type="text" id="myType">
-                <button onclick="kgInit()">Set type</button>
+            <div class="my-3">
+                <label for="kg-input"></label>
+                <input type="text" class="form-control mb-1" id="kg-input" placeholder="Knowledge Graph Searching">
+                <label for="kg-type"></label>
+                <input type="text" class="form-control" id="kg-type" placeholder="Type">
             </div>
-            <div class="myRow" id='widget' style="display: none">
-                <label for="myInput">Search for: </label><input type="text" id="myInput">
-                <div class="myRow" id="typeSet"></div>
-            </div>
-            <div>
-                <div class='resultPanel' id="resultPanel" style="display: none">
-                    <h3 id="resultName"></h3>
-                    <h4 id="resultId"></h4>
-                    <div id="resultDescription"></div>
-                    <div>
-                        <a id="resultUrl" target="_blank">
-                            Link to Webpage
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <div id="kg-tags" class="d-flex flex-column"></div>
         </div>
     </div>
     <div id="history" style="height: 35vh" class="boxed scrolling"></div>

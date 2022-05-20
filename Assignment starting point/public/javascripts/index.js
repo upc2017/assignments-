@@ -82,6 +82,17 @@ function connectToRoom() {
     socket.emit('join', roomNo, name, imageUrl);
     initPenColor();
     hideLoginInterface(roomNo, name);
+    initKG(kgData);
+}
+
+/**
+ * callback called when an element in the widget is selected
+ * @param event the Google Graph widget event {@link https://developers.google.com/knowledge-graph/how-tos/search-widget}
+ */
+function kgData(event) {
+    let row = event.row;
+    data = {color: color, kg: row}
+    showKGTag(data)
 }
 
 /**

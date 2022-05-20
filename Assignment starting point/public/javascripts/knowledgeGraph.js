@@ -1,39 +1,55 @@
 const service_url = 'https://kgsearch.googleapis.com/v1/entities:search';
 const apiKey = 'AIzaSyAG7w627q-djB4gTTahssufwNOImRqdYKM';
 
-function kgInit() {
-    let type = document.getElementById("myType").value;
-    if (type) {
-        let config = {
-            'limit': 10,
-            'languages': ['en'],
-            'types': [type],
-            'maxDescChars': 100,
-            'selectHandler': selectItem,
-        }
-        KGSearchWidget(apiKey, document.getElementById("myInput"), config);
-        document.getElementById('typeSet').innerHTML = 'of type: ' + type;
-        document.getElementById('widget').style.display = 'block';
-        document.getElementById('typeForm').style.display = 'none';
-    } else {
-        alert('Set the type please');
-        document.getElementById('widget').style.display = 'none';
-        document.getElementById('resultPanel').style.display = 'none';
-        document.getElementById('typeSet').innerHTML = '';
-        document.getElementById('typeForm').style.display = 'block';
+function initKG(selectHandler) {
+    // Init params
+    kgConfig = {
+        'limit': 10,
+        'languages': ['en'],
+        'maxDescChars': 100,
+        'selectHandler': selectHandler,
     }
+    KGSearchWidget(apiKey, document.getElementById("kg-input"), kgConfig);
+
+    // KG type updates
+    $("#kg-type").change(function () {
+        let type = $("#kg-type").val();
+        if (type) {
+            kgConfig = {
+                'limit': 10,
+                'languages': ['en'],
+                'types': [type],
+                'maxDescChars': 100,
+                'selectHandler': selectHandler,
+            }
+        } else {
+            kgConfig = {
+                'limit': 10,
+                'languages': ['en'],
+                'maxDescChars': 100,
+                'selectHandler': selectHandler,
+            }
+        }
+        KGSearchWidget(apiKey, document.getElementById("kg-input"), kgConfig);
+    });
 }
 
 /**
- * callback called when an element in the widget is selected
- * @param event the Google Graph widget event {@link https://developers.google.com/knowledge-graph/how-tos/search-widget}
+ * show a kg tag in the list
+ * @param data kg data
  */
-function selectItem(event) {
-    let row = event.row;
-    // document.getElementById('resultImage').src= row.json.image.url;
-    document.getElementById('resultId').innerText = 'id: ' + row.id;
-    document.getElementById('resultName').innerText = row.name;
-    document.getElementById('resultDescription').innerText = row.rc;
-    document.getElementById("resultUrl").href = row.qc;
-    document.getElementById('resultPanel').style.display = 'block';
+function showKGTag(data) {
+    $('#kg-tags').append(
+        $(`<div class='card mb-1 border-3' style="border-color: ${data.color}">
+            <div class="card-body">
+                <h3>${data.kg.name}</h3>
+                <h6>${data.kg.description}</h6>
+                <div>${data.kg.rc}</div>
+                <div>
+                    <a href="${data.kg.qc}" target="_blank">Link to Webpage</a>
+                </div>
+            </div>
+           </div>
+    `)
+    )
 }

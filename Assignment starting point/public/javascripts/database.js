@@ -43,6 +43,7 @@ async function initDatabase(){
                     });
                     sumsDB.createIndex('name', 'name', {unique: false, multiEntry: true});
                     sumsDB.createIndex('roomNo', 'roomNo', {unique: false, multiEntry: true});
+                    sumsDB.createIndex('name_roomNo', ["name","roomNo"], {unique: false});
                 }
                 if (!upgradeDb.objectStoreNames.contains(CANVAS_STORE_NAME)) {
                     let sumsDB = upgradeDb.createObjectStore(CANVAS_STORE_NAME, {
@@ -50,14 +51,44 @@ async function initDatabase(){
                         autoIncrement: true
                     });
                     sumsDB.createIndex('name', 'name', {unique: false, multiEntry: true});
+                    sumsDB.createIndex('name_roomNo', ["name","roomNo"], {unique: false});
                 }
 
             }
         });
+        function deleteCanvas(){
+            db.deleteObjectStore(CANVAS_STORE_NAME);
+        }
+
         console.log('db created');
     }
 }
 window.initDatabase= initDatabase;
+
+// async function deleteDatabase() {
+//     if (!db)
+//         await initDatabase();
+//     if (db) {
+//         let objectStore = db.transaction(CANVAS_STORE_NAME).objectStore(CANVAS_STORE_NAME);
+//         objectStore.openCursor().onsuccess = function (event) {
+//             let cursor = event.target.result;
+//             if (cursor) {
+//                 console.log('Id: ' + cursor.key);
+//                 cursor.continue();
+//             } else {
+//                 console.log('没有更多数据了！');
+//             }
+//         };
+//
+//
+//
+//     }
+//     indexedDB.deleteDatabase(CHAT_DB_NAME);
+// }
+// window.deleteDatabase= deleteDatabase;
+
+
+
 /**
  * it saves the sum into the database sum保存到数据库
  * if the database is not supported, it will use localstorage
@@ -115,9 +146,10 @@ async function getSumData(sumValue) {
         console.log('fetching: ' + sumValue);
         let tx = await db.transaction(CHAT_STORE_NAME, 'readonly');
         let store = await tx.objectStore(CHAT_STORE_NAME);
-        let index = await store.index('name');
+        let index = await store.index('name_roomNo');
         console.log(index)
-        let readingsList = await index.getAll(IDBKeyRange.only(sumValue));
+        let readingsList = await index.getAll(IDBKeyRange.only([name,roomNo]));
+        console.log(readingsList)
         await tx.complete;
         if (readingsList && readingsList.length > 0) {
             for (let elem of readingsList)
@@ -139,23 +171,35 @@ async function getSumData(sumValue) {
 }
 window.getSumData= getSumData;
 
-// async function displayData() {
-//     if(db){
-//         let tx = await db.transaction(CHAT_STORE_NAME, 'readonly');
-//         let store = await tx.objectStore(CHAT_STORE_NAME);
-//         store.openCursor().onsuccess = function(event) {
-//             var cursor = event.target.result;
-//             console.log(cursor)
-//             if(cursor) {
-//                 var listItem = document.createElement('li');
-//                 listItem.innerHTML = cursor.value.albumTitle + ', ' + cursor.value.year;
-//                 list.appendChild(listItem);
-//
-//                 cursor.continue();
-//             } else {
-//                 console.log('Entries all displayed.');
-//             }
-//         };
-//     }
-//
-// }window.displayData= displayData;
+async function getCanvasData(sumValue) {
+    console.log("8888888888888888"+sumValue)
+    if (!db)
+        await initDatabase();
+    if (db) {
+        console.log('fetching: ' + sumValue);
+        let tx = await db.transaction(CANVAS_STORE_NAME, 'readonly');
+        let store = await tx.objectStore(CANVAS_STORE_NAME);
+        let index = await store.index('name_roomNo');
+        let readingsList = await index.getAll(IDBKeyRange.only([name,roomNo]));
+        await tx.complete;
+        console.log("遍历了readingsList"+readingsList)
+        if (readingsList && readingsList.length > 0) {
+            for (let elem of readingsList)
+                addToCanvas(elem);//展示聊天记录 Show chat transcript
+        } else {
+            // if the database is not supported, we use localstorage
+            const value = localStorage.getItem(sumValue);
+            if (value == null)
+                addToCanvas();
+            else addToCanvas(value);
+        }
+    } else {
+        const value = localStorage.getItem(sumValue);
+        if (value == null)
+            addToCanvas();
+        else addToCanvas(value);
+    }
+
+}
+window.getCanvasData= getCanvasData;
+

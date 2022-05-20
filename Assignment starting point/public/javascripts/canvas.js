@@ -36,6 +36,7 @@ function initCanvas(sckt, imageUrl) {
         // if the flag is up, the movement of the mouse draws on the canvas
         if (e.type === 'mousemove') {//监听事件，移动鼠标就有一个新数据
             if (flag) {
+                console.log(ctx)
                 drawOnCanvas(ctx, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness);
                 // @if you draw on the canvas,send to everyone
                 // room, userId, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness
@@ -73,6 +74,8 @@ function initCanvas(sckt, imageUrl) {
      * clean the canvas
      */
     function clearCanvas() {
+        // deleteDatabase()
+        //     .then(e=>console.log("canvas success"))
         let c_width = canvas.width;
         let c_height = canvas.height;
         ctx.clearRect(0, 0, c_width, c_height);

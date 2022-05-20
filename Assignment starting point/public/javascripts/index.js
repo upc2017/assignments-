@@ -24,13 +24,16 @@ function init() {
 function initChatSocket() {
     // called when someone joins the room. If it is someone else it notifies the joining of the room
     chat.on('joined', function (room, userId) {
-        console.log("111")
+
+        console.log("11100000000000000000000000000"+userId)
         if (userId === name) {
             // it enters the chat
             hideLoginInterface(room, userId);
         } else {
+            // getUserId(userId);
             // notifies that someone has joined the room
             writeOnChatHistory('<b>' + userId + '</b>' + ' joined room ' + room);
+
         }
     });
     // called when a message is received
@@ -38,6 +41,8 @@ function initChatSocket() {
         let who = userId
         if (userId === name) who = 'Me';
         writeOnChatHistory('<b>' + who + ':</b> ' + chatText);
+        chatSubmitForm(userId);
+
     });
 
 }
@@ -74,7 +79,8 @@ function sendChatText() {
 function connectToRoom() {
     roomNo = document.getElementById('roomNo').value;
     name = document.getElementById('name').value;
-    let imageUrl = document.getElementById('image_url').value;
+    // let imageUrl = document.getElementById('image_url').value;
+    let imageUrl = GetUrlPara();
     if (!name) name = 'Unknown-' + Math.random();
     //@join the room
     chat.emit('create or join', roomNo, name);

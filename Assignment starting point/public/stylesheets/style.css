@@ -35,6 +35,12 @@ a {
     position:absolute; top:0px; left:0px;
     background-color: rgba(255,0,0,.1);
 }
+.offline_div{
+    width:100%;
+    text-align: center;
+    color: red;
+    font-size:20px;
+}
 .kge-search-picker {
     width: 50px;
 }

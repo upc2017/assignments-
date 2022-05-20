@@ -20,11 +20,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script type="application/javascript" src="/javascripts/knowledgeGraph.js"></script>
 
+
 </head>
 <body onload="init()">
+<div class="offline_div" id="offline_div" style="display: none">You are offline</div>
 <div id="initial_form" style="display: block">
-    <h1><%= title %></h1>
-    <p>Please insert the id of the Room you want to Join, if you do not have a room id, click Generate Room</p>
+    <h1>Join or Creat The Room</h1><br><br>
+    <img id="render_story_img"  src=""><br><br>
     <form onsubmit="return false;">
         <p><label for="name"> Your name </label>
             <input type="text" id="name" name="name">
@@ -34,9 +36,11 @@
             <input type="text" id="roomNo" name="roomNo">
             <button id="roomNoGenerator" onclick="generateRoom()">Generate Room</button>
         </p>
-        <p style=" width: 100%"><label for="image_url"> Image (URL) </label><input type="text" id="image_url"
-                                                                                   name="image_url"></p>
-        <button id="connect" onclick="connectToRoom();chatSubmitForm();get_history()">Connect</button>
+<!--        <p style=" width: 100%"><label for="image_url"> Image (URL) </label><input type="text" id="image_url"-->
+<!--                                                                                   name="image_url"></p>-->
+        <button class="btn btn-primary" id="connect" onclick="connectToRoom();
+            // chatSubmitForm();
+            get_history();get_canvas_history()">Connect</button>
     </form>
 </div>
 <div id="chat_interface" style="display: none">
@@ -100,6 +104,7 @@
                 <label for="name"> chat: </label>
                 <input type="text" id="chat_input" name="chat_input" style="width: 80%">
                 <button id="chat_send" onclick="sendChatText();chatSubmitForm()">Send</button>
+
             </p>
         </form>
     </div>
@@ -107,6 +112,22 @@
 
 <br><br><br>
 <a class="btn btn-primary" href="/" role="button">Return Story list</a>
+<script>
+    function GetUrlPara(){
+        var url = document.location.toString();//获取当前URL
+        var arrUrl = url.split("?");//分割？
+        var para = arrUrl[1];//获取参数部分
+        var arr = para.split("=");//分割=
+        var res = arr[1];//获取参数的值
+        return res;
+    }
+    console.log(GetUrlPara())
+    document.getElementById("render_story_img").src=GetUrlPara()
 
+    document.getElementById("image").src=GetUrlPara()
+
+    //传值
+
+</script>
 </body>
 </html>

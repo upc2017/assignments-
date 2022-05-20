@@ -6,28 +6,15 @@ function chatSubmitForm() {
 	//执行
 	storeSumData({
 			name: data.name,
+
 			roomNo: data.roomNo,
-			image_url: data.image_url,
+			// image_url: data.image_url,
 			chat_input: data.chat_input
 		})
 		.then(response => console.log('storeChat inserting worked!!'))
 		.catch(error => console.log("error  inserting: " + JSON.stringify(error)))
 }
 
-// function chatSubmitForm(){
-// 	storeCanvasData({
-//
-// 		name:userId,
-// 		roomNo: room,
-// 		canvas_width:canvas.width,
-// 		canvas_height:canvas.height,
-//
-// 		color:color,
-// 		thickness:thickness
-// 	})
-// 		.then(response => console.log('storeChat inserting worked!!'))
-// 		.catch(error => console.log("error  inserting: " + JSON.stringify(error)))
-// }
 //存储数据到story数据库 Storing data in the story database
 function storySubmitForm() {
 	let data = serialiseForm();
@@ -77,6 +64,14 @@ function get_history() {
 		.then(response => console.log('getting sum worked!!'))
 		.catch(error => console.log("error  getting: " + +JSON.stringify(error)))
 }
+//取数据canvas Loading Chat Records
+function get_canvas_history() {
+	let data = serialiseForm();
+	console.log(data)
+	getCanvasData(data.name)
+		.then(response => console.log('getCanvasData(),getting sum worked!!'))
+		.catch(error => console.log("error  getting: " + +JSON.stringify(error)))
+}
 //取数据story Fetch data story
 function get_story_history() {
 	let data = serialiseForm();
@@ -108,8 +103,11 @@ function addToResults(dataR) {
 
 	history.appendChild(paragraph);
 	document.getElementById('chat_input').value = '';
-
-
+}
+//显示取的canvas数据 Get chat logs, show them
+function addToCanvas(dataR) {
+	console.log("show")
+	drawOnCanvas(document.getElementById('canvas').getContext('2d'), dataR.canvas_width, dataR.canvas_height, dataR.prevX, dataR.prevY, dataR.currX, dataR.currY, dataR.color, dataR.thickness);
 
 }
 //显示取的story数据
@@ -135,7 +133,7 @@ const _generateGridContent = (time, title, details, name, url) => {
             <li class="list-group-item">on ${time}</li>
         </ul>
         <div class="card-body">
-            <a href="/index" class="btn btn-primary">Enter the Story</a>
+            <a id="url_image" href="/index?imgurl=${url}" class="btn btn-primary">Enter the Story</a>
         </div>`;
 }
 //获取当前时间以供存储数据时调用 Called when getting the current time for storing data
@@ -150,9 +148,7 @@ function getFormatDate() {
 	return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
 }
 
-function test() {
-	console.log("1")
-}
+
 
 function get_story_history1() {
 	getStoryData()

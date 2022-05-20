@@ -15,5 +15,6 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/list/add', List.insert)
+router.get('/list', List.list)
 
 module.exports = router;

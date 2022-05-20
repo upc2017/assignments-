@@ -119,8 +119,8 @@ function addToStory(dataR) {
 	// let paragraph = document.createElement('p');
 	//     paragraph.innerHTML = "Me:"+dataR.creat_Details;
 	//      show_story.appendChild(paragraph);
-	$('#show_story').append(_generateGridContent(dataR.time, dataR.creat_title, dataR.creat_Details, dataR.creat_name,
-		dataR.creat_image_url));
+	/*$('#show_story').append(_generateGridContent(dataR.time, dataR.creat_title, dataR.creat_Details, dataR.creat_name,
+		dataR.creat_image_url));*/
 }
 const _generateGridContent = (time, title, details, name, url) => {
 	return `<div  class="card m-5 col-3" style="width: 18rem;">

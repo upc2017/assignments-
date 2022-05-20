@@ -92,6 +92,33 @@
             }
         }
     })
+	
+	fetch('/list',{
+		method: 'GET', // or 'PUT'
+		headers: {
+			'Content-Type': 'application/json',
+		}
+	}).then(response => response.json())
+		.then(data => {
+			console.log(data)
+			if(data.code == 1){
+				if(data.data && data.data.length > 0){
+					console.log("add from mongodb")
+					data.data.forEach((d,i)=>{
+						var date = new Date(d.time);
+						var dateStr = date.getFullYear()+"-" +(1+date.getMonth())+
+							"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+						$('#show_story').append(_generateGridContent(dateStr, d.creat_title, d.creat_Details, d.creat_name,
+							d.creat_image_url));
+					})
+				}
+				
+			}
+		})
+		.catch((error) => {
+			console.error('Error:', error);
+		});
+	
 </script>
 </body>
 </html>

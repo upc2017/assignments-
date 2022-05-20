@@ -16,3 +16,11 @@ exports.insert = async function(req, res, next) {
 		});
 	}
 }
+
+exports.list = async function(req, res, next) {
+	const newDocument = await Document.find();
+	res.json({
+		code: 1,
+		data: newDocument
+	});
+}

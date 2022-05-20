@@ -10,7 +10,7 @@ import * as idb from 'https://cdn.jsdelivr.net/npm/idb@7/+esm';
 // Inside the database is where the fields are created and what is indexed by is created. The exact logic still needs to be written inside the js
 
 let db;
-
+const CHAT_DB_NAME= 'db_chat';
 const STORY_DB_NAME= 'db_story';
 const STORY_STORE_NAME= 'store_story';
 

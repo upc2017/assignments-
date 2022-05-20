@@ -55,27 +55,16 @@ async function initDatabase(){
 }
 window.initDatabase= initDatabase;
 
-// async function deleteDatabase() {
-//     if (!db)
-//         await initDatabase();
-//     if (db) {
-//         let objectStore = db.transaction(CANVAS_STORE_NAME).objectStore(CANVAS_STORE_NAME);
-//         objectStore.openCursor().onsuccess = function (event) {
-//             let cursor = event.target.result;
-//             if (cursor) {
-//                 console.log('Id: ' + cursor.key);
-//                 cursor.continue();
-//             } else {
-//                 console.log('没有更多数据了！');
-//             }
-//         };
-//
-//
-//
-//     }
-//     indexedDB.deleteDatabase(CHAT_DB_NAME);
-// }
-// window.deleteDatabase= deleteDatabase;
+async function deleteDatabase() {
+    if (!db)
+        await initDatabase();
+    if (db) {
+
+        indexedDB.deleteDatabase(CHAT_DB_NAME);
+
+    }
+}
+window.deleteDatabase= deleteDatabase;
 
 
 /**

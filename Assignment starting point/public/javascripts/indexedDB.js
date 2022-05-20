@@ -1,9 +1,9 @@
-//存储数据到chat数据库 Storing data in the chat database
+/**
+ * Store data in the chat database
+ */
 function chatSubmitForm() {
 	let data = serialiseForm();
 	console.log(data)
-	// let sum= parseInt(data.name)+parseInt(data.roomNo);
-	//执行
 	storeSumData({
 			name: data.name,
 
@@ -15,11 +15,13 @@ function chatSubmitForm() {
 		.catch(error => console.log("error  inserting: " + JSON.stringify(error)))
 }
 
-//存储数据到story数据库 Storing data in the story database
+/**
+ * Store data in the story database
+ */
 function storySubmitForm() {
 	let data = serialiseForm();
 	console.log(data)
-	//获取当前时间
+	//Get the current time
 	let currentTime = getFormatDate();
 	fetch('/list/add', {
 			method: 'POST', // or 'PUT'
@@ -51,20 +53,21 @@ function storySubmitForm() {
 		})
 		.then(response => console.log('storeStoryData inserting worked!!'))
 		.catch(error => console.log("error  inserting: " + JSON.stringify(error)))
-	//自动加载聊天记录， getSumData(XXX)，XXX特别重要！ // auto-load chat logs, getSumData(XXX), XXX is particularly important!
-	//     getSumData(data.name)
-	//         .then(response => console.log('getting sum worked!!'))
-	//         .catch(error => console.log("error  getting: "+ + JSON.stringify(error)))
 }
 
-//取数据chat Loading Chat Records
+/**
+ * Fetch data from a chatDatabase
+ */
 function get_history() {
 	let data = serialiseForm();
-	getSumData(data.name)
+	getChatData(data.name)
 		.then(response => console.log('getting sum worked!!'))
 		.catch(error => console.log("error  getting: " + +JSON.stringify(error)))
 }
-//取数据canvas Loading Chat Records
+
+/**
+ * Fetch data from the Canvas database
+ */
 function get_canvas_history() {
 	let data = serialiseForm();
 	console.log(data)
@@ -72,7 +75,10 @@ function get_canvas_history() {
 		.then(response => console.log('getCanvasData(),getting sum worked!!'))
 		.catch(error => console.log("error  getting: " + +JSON.stringify(error)))
 }
-//取数据story Fetch data story
+
+/**
+ * Fetch data from the story database
+ */
 function get_story_history() {
 	let data = serialiseForm();
 	console.log(data)
@@ -81,7 +87,9 @@ function get_story_history() {
 		.catch(error => console.log("error  getting: " + +JSON.stringify(error)))
 }
 
-//处理所有form表单的数据 Process all form data
+/**
+ *  Process all form data
+ */
 function serialiseForm() {
 	let formArray = $("form").serializeArray();
 	//打印出所有表单里面的值 Print out all the values in the form
@@ -93,8 +101,11 @@ function serialiseForm() {
 	return data;
 }
 
-//显示取的chat数据 Get chat logs, show them
-function addToResults(dataR) {
+
+/**
+ *  Get chat logs, show them
+ */
+function addChatView(dataR) {
 	let history = document.getElementById('history');
 	let paragraph = document.createElement('p');
 	if (dataR.chat_input != '') { //做判断，去除空值Make a judgement call to remove null values
@@ -104,13 +115,18 @@ function addToResults(dataR) {
 	history.appendChild(paragraph);
 	document.getElementById('chat_input').value = '';
 }
-//显示取的canvas数据 Get chat logs, show them
+
+/**
+ * 显示取的canvas数据 Get chat logs, show them
+ */
 function addToCanvas(dataR) {
 	console.log("show")
 	drawOnCanvas(document.getElementById('canvas').getContext('2d'), dataR.canvas_width, dataR.canvas_height, dataR.prevX, dataR.prevY, dataR.currX, dataR.currY, dataR.color, dataR.thickness);
 
 }
-//显示取的story数据
+/**
+ * Display the fetched story data
+ */
 function addToStory(dataR) {
 	console.log("1")
 	// let show_story = document.getElementById('render_story');
@@ -120,6 +136,9 @@ function addToStory(dataR) {
 	/*$('#show_story').append(_generateGridContent(dataR.time, dataR.creat_title, dataR.creat_Details, dataR.creat_name,
 		dataR.creat_image_url));*/
 }
+/**
+ * Fetch data from MongoDB to render the home page
+ */
 const _generateGridContent = (time, title, details, name, url) => {
 	return `<div  class="card m-5 col-3" style="width: 18rem;">
         <img id="render_story_img"  src="${url}"
@@ -136,7 +155,10 @@ const _generateGridContent = (time, title, details, name, url) => {
             <a id="url_image" href="/index?imgurl=${url}" class="btn btn-primary">Enter the Story</a>
         </div>`;
 }
-//获取当前时间以供存储数据时调用 Called when getting the current time for storing data
+
+/**
+ *  Called when getting the current time for storing data
+ */
 function getFormatDate() {
 	let nowDate = new Date();
 	let year = nowDate.getFullYear();
@@ -147,8 +169,6 @@ function getFormatDate() {
 	let second = nowDate.getSeconds() < 10 ? "0" + nowDate.getSeconds() : nowDate.getSeconds();
 	return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
 }
-
-
 
 function get_story_history1() {
 	getStoryData()

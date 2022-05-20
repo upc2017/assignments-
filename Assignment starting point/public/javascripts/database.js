@@ -1,27 +1,14 @@
 /*
  *  Copyright (C) The University of Sheffield - All Rights Reserved
  *  Written by Fabio Ciravegna (f.ciravegna@shef.ac.uk)
- *
+ *  Initialize database, store data, fetch data
  */
-//在数据库里面是创建字段，创建以什么为索引的地方。具体的逻辑还需要在js里面书写
 // Inside the database is where the fields are created and what is indexed by is created. The exact logic still needs to be written inside the js
 import * as idb from 'https://cdn.jsdelivr.net/npm/idb@7/+esm';
-
 
 ////////////////// DATABASE //////////////////
 // the database receives from the server the following structure
 
-/** class WeatherForecast{
- *  constructor (location, date, forecast, temperature, wind, precipitations) {
- *    this.location= location;
- *    this.date= date,
- *    this.forecast=forecast;
- *    this.temperature= temperature;
- *    this.wind= wind;
- *    this.precipitations= precipitations;
- *  }
- *}
- */
 let db;
 
 const CHAT_DB_NAME= 'db_chat';
@@ -29,11 +16,10 @@ const CHAT_STORE_NAME= 'store_chat';
 const CANVAS_STORE_NAME= 'store_canvas';
 
 /**
- * it inits the database and creates an index for the sum field
+ * it inits the database and creates indexes for the fields name,roomNO,name_roomNo
  */
 async function initDatabase(){
     if (!db) {
-        //判断有没有数据库Determine if there is a database
         db = await idb.openDB(CHAT_DB_NAME, 2, {
             upgrade(upgradeDb, oldVersion, newVersion) {
                 if (!upgradeDb.objectStoreNames.contains(CHAT_STORE_NAME)) {
@@ -56,10 +42,6 @@ async function initDatabase(){
 
             }
         });
-        function deleteCanvas(){
-            db.deleteObjectStore(CANVAS_STORE_NAME);
-        }
-
         console.log('db created');
     }
 }
@@ -88,11 +70,10 @@ window.initDatabase= initDatabase;
 // window.deleteDatabase= deleteDatabase;
 
 
-
 /**
- * it saves the sum into the database sum保存到数据库
+ * it saves the name and roomNo into the database
  * if the database is not supported, it will use localstorage
- * @param sumObject: name,roomNo,image_url,chat_input
+ * @param sumObject: name,roomNo,chat_input
  */
 async function storeSumData(sumObject) {
     console.log('inserting: '+JSON.stringify(sumObject));
@@ -104,7 +85,7 @@ async function storeSumData(sumObject) {
             let store = await tx.objectStore(CHAT_STORE_NAME);
             await store.put(sumObject);
             await  tx.complete;
-            console.log('added item to the store! 仓库里增加了一个项目!'+ JSON.stringify(sumObject));
+            console.log('added item to the store! !'+ JSON.stringify(sumObject));
         } catch(error) {
             console.log('error: I could not store the element. Reason: '+error);
         }
@@ -112,7 +93,13 @@ async function storeSumData(sumObject) {
 
 }
 window.storeSumData= storeSumData;
-//存画布的轨迹
+
+
+/**
+ * it saves the canvas into the database
+ * if the database is not supported, it will use localstorage
+ * @param sumObject: roomNo: room,name:userId,canvas_width,canvas_height,prevX,prevY,currX,color,thickness
+ */
 async function storeCanvasData(sumObject) {
     console.log('inserting: '+JSON.stringify(sumObject));
     if (!db)
@@ -124,7 +111,7 @@ async function storeCanvasData(sumObject) {
             let store = await tx.objectStore(CANVAS_STORE_NAME);
             await store.put(sumObject);
             await  tx.complete;
-            console.log('added item to the store! 仓库里增加了一个项目!'+ JSON.stringify(sumObject));
+            console.log('added Canvas to the store!!'+ JSON.stringify(sumObject));
         } catch(error) {
             console.log('error: I could not store the element. Reason: '+error);
         }
@@ -132,13 +119,14 @@ async function storeCanvasData(sumObject) {
 
 }
 window.storeCanvasData= storeCanvasData;
+
+
 /**
- * it retrieves all the numbers that have summed to sumValue from the database它从数据库中检索出所有与sumValue相加的数字。
- * if the database is not supported, it will use localstorage如果数据库不被支持，它将使用本地存储。
- * @param sumValue: a name
- * @returns objects like {name,roomNo,image_url,chat_input}
+ * it retrieves all the Chat transcript from the database
+ * if the database is not supported, it will use localstorage
+ * @param sumValue: roomNo,name,chat_input
  */
-async function getSumData(sumValue) {
+async function getChatData(sumValue) {
     console.log("666"+sumValue)
     if (!db)
         await initDatabase();
@@ -153,26 +141,31 @@ async function getSumData(sumValue) {
         await tx.complete;
         if (readingsList && readingsList.length > 0) {
             for (let elem of readingsList)
-                addToResults(elem);//展示聊天记录 Show chat transcript
+                addChatView(elem);
         } else {
             // if the database is not supported, we use localstorage
             const value = localStorage.getItem(sumValue);
             if (value == null)
-                addToResults();
-            else addToResults(value);
+                addChatView();
+            else addChatView(value);
         }
     } else {
         const value = localStorage.getItem(sumValue);
         if (value == null)
-            addToResults();
-        else addToResults(value);
+            addChatView();
+        else addChatView(value);
     }
 
 }
-window.getSumData= getSumData;
+window.getChatData= getChatData;
 
+
+/**
+ * it retrieves all the canvas from the database
+ * if the database is not supported, it will use localstorage
+ * @param sumValue: roomNo: room,name:userId,canvas_width,canvas_height,prevX,prevY,currX,color,thickness
+ */
 async function getCanvasData(sumValue) {
-    console.log("8888888888888888"+sumValue)
     if (!db)
         await initDatabase();
     if (db) {
@@ -182,10 +175,9 @@ async function getCanvasData(sumValue) {
         let index = await store.index('name_roomNo');
         let readingsList = await index.getAll(IDBKeyRange.only([name,roomNo]));
         await tx.complete;
-        console.log("遍历了readingsList"+readingsList)
         if (readingsList && readingsList.length > 0) {
             for (let elem of readingsList)
-                addToCanvas(elem);//展示聊天记录 Show chat transcript
+                addToCanvas(elem);// Show chat transcript
         } else {
             // if the database is not supported, we use localstorage
             const value = localStorage.getItem(sumValue);

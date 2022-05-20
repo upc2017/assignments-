@@ -25,7 +25,6 @@ function init() {
 function initChatSocket() {
     // called when someone joins the room. If it is someone else it notifies the joining of the room
     chat.on('joined', function (room, userId) {
-
         console.log("11100000000000000000000000000"+userId)
         if (userId === name) {
             // it enters the chat

@@ -63,7 +63,13 @@ function initKGSocket(sckt) {
     kgSocket = sckt;
 
     kgSocket.on('showKG', function (data) {
+        storeKnowsData({
+            data:data
+        })
+            .then(response => console.log('storeChat inserting worked!!'))
+            .catch(error => console.log("error  inserting: " + JSON.stringify(error)))
         showKGTag(data);
+        //todo
     });
 
     kgSocket.on('clear', function (room, userId) {

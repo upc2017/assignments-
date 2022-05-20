@@ -53,3 +53,27 @@ function showKGTag(data) {
     `)
     )
 }
+
+/**
+ * it inits the knowledgeGraph search. It sets up the events to respond to search
+ * it is also the place where the data should be sent  via socket.io
+ * @param sckt the open socket to register events on
+ */
+function initKGSocket(sckt) {
+    kgSocket = sckt;
+
+    kgSocket.on('showKG', function (data) {
+        showKGTag(data);
+    });
+
+    kgSocket.on('clear', function (room, userId) {
+        clearKGTags();
+    });
+}
+
+/**
+ * clear kg tags in the list
+ */
+function clearKGTags() {
+    $('#kg-tags').empty()
+}

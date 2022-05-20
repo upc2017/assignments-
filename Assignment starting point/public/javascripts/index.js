@@ -2,6 +2,7 @@ let name = null;
 let roomNo = null;
 let chat = io.connect('/chat');
 let socket = io.connect('/canvas')
+let kgSocket = io.connect('/kg')
 
 /**
  * called by <body onload>
@@ -88,6 +89,8 @@ function connectToRoom() {
     socket.emit('join', roomNo, name, imageUrl);
     initPenColor();
     hideLoginInterface(roomNo, name);
+    initKGSocket(kgSocket);
+    kgSocket.emit('join', roomNo, name, imageUrl);
     initKG(kgData);
 }
 
@@ -99,6 +102,7 @@ function kgData(event) {
     let row = event.row;
     data = {color: color, kg: row}
     showKGTag(data)
+    kgSocket.emit('postKG', roomNo, data);
 }
 
 /**

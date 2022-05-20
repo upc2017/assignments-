@@ -68,6 +68,8 @@ function initCanvas(sckt, imageUrl) {
         resizeAndLoad();
         // @let everyone knows you have cleared the canvas via socket.io (socket.emit...)
         socket.emit('clear', room, userId);
+        clearKGTags();
+        kgSocket.emit('clear', room, userId);
     });
 
     /**

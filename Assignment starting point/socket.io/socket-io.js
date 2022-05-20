@@ -56,15 +56,15 @@ exports.init = function (io) {
             try {
                 socket.on('join', function (room, userId, imageUrl) {
                     socket.join(room);
-                    kg.to(room).emit('joined', room, userId, imageUrl);
+                    socket.to(room).emit('joined', room, userId, imageUrl);
                 });
 
-                socket.on('postKG', function (data) {
-                    kg.to(room).emit('showKG', data);
+                socket.on('postKG', function (room, data) {
+                    socket.broadcast.to(room).emit('showKG', data);
                 });
 
                 socket.on('clear', function (room, userId) {
-                    kg.to(room).emit('clear', room, userId);
+                    socket.broadcast.to(room).emit('clear', room, userId);
                 });
 
                 socket.on('disconnect', function () {

@@ -101,6 +101,14 @@ function kgData(event) {
     let row = event.row;
     data = {color: color, kg: row}
     showKGTag(data)
+    //todo
+    storeKnowsData({
+        name:name,
+        roomNo:roomNo,
+        data:data
+    })
+        .then(response => console.log('storeChat inserting worked!!'))
+        .catch(error => console.log("error  inserting: " + JSON.stringify(error)))
     kgSocket.emit('postKG', roomNo, data);
 }
 

@@ -74,8 +74,19 @@ function get_canvas_history() {
 	getCanvasData(data.name)
 		.then(response => console.log('getCanvasData(),getting sum worked!!'))
 		.catch(error => console.log("error  getting: " + +JSON.stringify(error)))
-}
 
+}
+/**
+ * Fetch data from the knowledgeGraph database
+ */
+function get_know_history() {
+
+	console.log("111111111111111111111111111111111")
+	getKnowData()
+		.then(response => console.log('getCanvasData(),getting sum worked!!'))
+		.catch(error => console.log("error  getting: " + +JSON.stringify(error)))
+
+}
 /**
  * Fetch data from the story database
  */
@@ -122,6 +133,13 @@ function addChatView(dataR) {
 function addToCanvas(dataR) {
 	console.log("show")
 	drawOnCanvas(document.getElementById('canvas').getContext('2d'), dataR.canvas_width, dataR.canvas_height, dataR.prevX, dataR.prevY, dataR.currX, dataR.currY, dataR.color, dataR.thickness);
+
+}
+function addToKnowledge(dataR) {
+	console.log("show，之二是最后一步")
+	console.log(dataR.data)
+	showKGTag(dataR.data);
+	console.log("调用成功了吗")
 
 }
 /**

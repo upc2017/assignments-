@@ -1,14 +1,93 @@
-{
-  "openapi": "3.0.2",
-  "info": {
-    "title": "API Title",
-    "version": "1.0"
-  },
-  "servers": [
-    {
-      "url": "https://api.server.test/v1"
-    }
-  ],
-  "paths": {
-  }
-}
+openapi: 3.0.2
+info:
+version: 1.0.0
+title: The Intelligent Web
+description: Interface API documentation
+contact:
+name: Jun Liu, Mengyao Piao, Chaoda Song
+email: jliu240@sheffield.ac.uk
+url: https://github.com/upc2017/assignments-
+license:
+name: Apache 2.0
+url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: http://localhost:3000/
+description: Host server
+paths:
+/:
+get:
+tags:
+- Index
+description: Home page,Api for Render  list of stories
+operationId: list
+responses:
+'200':
+description: Web Page
+content:
+text/html: {}
+/index:
+get:
+tags:
+- Connect Room
+description: Api for Render the Join or Room Page
+operationId: search
+responses:
+'200':
+description: Show join or create a room page
+content:
+text/html: {}
+/list:
+get:
+tags:
+- Story
+description: Get all the data related to a story from MongoDB
+operationId: list.insert
+responses:
+'200':
+description: Success
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/StoryListRes'
+'500':
+description: Invalid request
+content:
+text/plain:
+schema:
+$ref: '#/components/schemas/errorMsg'
+/list/add:
+post:
+tags:
+- Story
+description: Upload all story Data
+operationId: List.insert
+requestBody:
+content:
+text/html: {}
+required: true
+responses:
+'200':
+description: Correct upload structure
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/PostStoryListRes'
+'500':
+description: Invalid request
+content:
+text/plain:
+schema:
+$ref: '#/components/schemas/errorMsg'
+components:
+schemas:
+errorMsg:
+type: string
+description: Error message
+example: Invalid data!
+StoryListRes:
+type: object
+description: Response of a list of images' full data
+StoryListRes:
+type: object
+description: Response of a list of images' full data
+

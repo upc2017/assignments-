@@ -64,6 +64,7 @@ function initCanvas(sckt, imageUrl) {
     // this is code left in case you need to  provide a button clearing the canvas (it is suggested that you implement it)
     $('.canvas-clear').on('click', function (e) {
         clearCanvas();
+        deleteDatabase().then(e=>console.log("canvas success"))
         img.style.display = 'block';
         resizeAndLoad();
         // @let everyone knows you have cleared the canvas via socket.io (socket.emit...)
@@ -76,8 +77,8 @@ function initCanvas(sckt, imageUrl) {
      * clean the canvas
      */
     function clearCanvas() {
-        // deleteDatabase()
-        //     .then(e=>console.log("canvas success"))
+
+
         let c_width = canvas.width;
         let c_height = canvas.height;
         ctx.clearRect(0, 0, c_width, c_height);

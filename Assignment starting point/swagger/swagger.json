@@ -1,30 +1,31 @@
-openapi: 3.0.2
-info:
-version: 1.0.0
-title: The Intelligent Web
-description: Interface API documentation
-contact:
-name: Jun Liu, Mengyao Piao, Chaoda Song
-email: jliu240@sheffield.ac.uk
-url: https://github.com/upc2017/assignments-
-license:
-name: Apache 2.0
-url: https://www.apache.org/licenses/LICENSE-2.0.html
-servers:
-- url: http://localhost:3000/
-description: Host server
-paths:
-/:
-get:
-tags:
-- Index
-description: Home page,Api for Render  list of stories
-operationId: list
-responses:
-'200':
-description: Web Page
-content:
-text/html: {}
+{
+  openapi: 3.0.2
+  info:
+  version: 1.0.0
+  title: The Intelligent Web
+  description: Interface API documentation
+  contact:
+  name: Jun Liu, Mengyao Piao, Chaoda Song
+  email: jliu240@sheffield.ac.uk
+  url: https://github.com/upc2017/assignments-
+  license:
+  name: Apache 2.0
+  url: https://www.apache.org/licenses/LICENSE-2.0.html
+  servers:
+  - url: http://localhost:3000/
+  description: Host server
+  paths:
+  /:
+  get:
+  tags:
+  - Index
+  description: Home page,Api for Render  list of stories
+  operationId: list
+  responses:
+  '200':
+  description: Web Page
+  content:
+  text/html: {}
 /index:
 get:
 tags:
@@ -91,3 +92,5 @@ StoryListRes:
 type: object
 description: Response of a list of images' full data
 
+
+}

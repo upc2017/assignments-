@@ -8,11 +8,12 @@ var filesToCache = [
     '/javascripts/indexedDB.js',
     '/javascripts/jquery.min.js',
     '/javascripts/knowledgeGraph.js',
-    '/javascripts/service worker register.js',
+    '/javascripts/serviceWorkerRegister.js',
     '/javascripts/story_database.js',
     '/stylesheets/list.css',
     '/stylesheets/style.css',
-
+    '/javascripts/idb/index.js',
+    '/stylesheets/bootstrap_css/bootstrap.css'
 ];
 
 /**

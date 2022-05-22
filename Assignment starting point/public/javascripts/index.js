@@ -14,11 +14,6 @@ function init() {
     document.getElementById('initial_form').style.display = 'block';
     document.getElementById('chat_interface').style.display = 'none';
 
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker
-            .register('./service-worker.js')
-            .then(function() { console.log('Service Worker Registered'); });
-    }
     //@initialise the socket operations
     initChatSocket();
 }
@@ -29,7 +24,6 @@ function init() {
 function initChatSocket() {
     // called when someone joins the room. If it is someone else it notifies the joining of the room
     chat.on('joined', function (room, userId) {
-        console.log("11100000000000000000000000000"+userId)
         if (userId === name) {
             // it enters the chat
             hideLoginInterface(room, userId);
@@ -37,7 +31,6 @@ function initChatSocket() {
             // getUserId(userId);
             // notifies that someone has joined the room
             writeOnChatHistory('<b>' + userId + '</b>' + ' joined room ' + room);
-
         }
     });
     // called when a message is received
@@ -46,9 +39,7 @@ function initChatSocket() {
         if (userId === name) who = 'Me';
         writeOnChatHistory('<b>' + who + ':</b> ' + chatText);
         chatSubmitForm(userId);
-
     });
-
 }
 
 /**
@@ -59,11 +50,6 @@ function initChatSocket() {
 function generateRoom() {
     roomNo = Math.round(Math.random() * 10000);
     document.getElementById('roomNo').value = 'R' + roomNo;
-}
-
-function creat_generateRoom() {
-    roomNo = Math.round(Math.random() * 10000);
-    document.getElementById('creat_roomNo').value = 'R' + roomNo;
 }
 
 /**
@@ -105,11 +91,10 @@ function kgData(event) {
     let row = event.row;
     data = {color: color, kg: row}
     showKGTag(data)
-    //todo
     storeKnowsData({
-        name:name,
-        roomNo:roomNo,
-        data:data
+        name: name,
+        roomNo: roomNo,
+        data: data
     })
         .then(response => console.log('storeChat inserting worked!!'))
         .catch(error => console.log("error  inserting: " + JSON.stringify(error)))
@@ -150,7 +135,6 @@ function hideLoginInterface(room, userId) {
 function initPenColor() {
     // get initial color
     updatePenColor();
-
     // color update
     $('#pen-color').on('click', function (e) {
         updatePenColor();

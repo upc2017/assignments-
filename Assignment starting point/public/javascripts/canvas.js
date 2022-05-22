@@ -46,14 +46,14 @@ function initCanvas(sckt, imageUrl) {
                 // console.log(room, userId, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness)
                 storeCanvasData({
                     roomNo: room,
-                    name:userId,
-                    canvas_width:canvas.width,
-                    canvas_height:canvas.height,
-                    prevX:prevX,
-                    prevY:prevY,
-                    currX:currX, currY:currY,
-                    color:color,
-                    thickness:thickness
+                    name: userId,
+                    canvas_width: canvas.width,
+                    canvas_height: canvas.height,
+                    prevX: prevX,
+                    prevY: prevY,
+                    currX: currX, currY: currY,
+                    color: color,
+                    thickness: thickness
                 })
                     .then(response => console.log('storeChat inserting worked!!'))
                     .catch(error => console.log("error  inserting: " + JSON.stringify(error)))
@@ -64,7 +64,7 @@ function initCanvas(sckt, imageUrl) {
     // this is code left in case you need to  provide a button clearing the canvas (it is suggested that you implement it)
     $('.canvas-clear').on('click', function (e) {
         clearCanvas();
-        deleteDatabase().then(e=>console.log("canvas success"))
+        deleteDatabase().then(e => console.log("canvas success"))
         img.style.display = 'block';
         resizeAndLoad();
         // @let everyone knows you have cleared the canvas via socket.io (socket.emit...)
@@ -77,8 +77,6 @@ function initCanvas(sckt, imageUrl) {
      * clean the canvas
      */
     function clearCanvas() {
-
-
         let c_width = canvas.width;
         let c_height = canvas.height;
         ctx.clearRect(0, 0, c_width, c_height);
@@ -149,8 +147,6 @@ function drawImageScaled(img, canvas, ctx) {
     let x = (canvas.width / 2) - (img.width / 2) * scale;
     let y = (canvas.height / 2) - (img.height / 2) * scale;
     ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-
-
 }
 
 
@@ -184,11 +180,4 @@ function drawOnCanvas(ctx, canvasWidth, canvasHeight, prevX, prevY, currX, currY
     ctx.lineWidth = thickness;
     ctx.stroke();
     ctx.closePath();
-
-    // console.log(prevX,prevY,currX,currY,ctx.strokeStyle,ctx.lineWidth)
-
-
-
-
-
 }

@@ -1,0 +1,202 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "version": "1.0.0",
+    "title": "The Intelligent Web Assignment",
+    "description": "API interface documentation ",
+    "contact": {
+      "name": "Jun Liu,Mengyao Piao,Chaoda Song",
+      "email": "jliu240@sheffield.ac.uk",
+      "url": "https://github.com/upc2017/assignments-"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Home"
+        ],
+        "description": "Get the story listings page",
+        "operationId": "list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Getting to the home page",
+            "content": {
+              "text/html": {
+              }
+            }
+          }
+        }
+      }
+    },
+    "/index": {
+      "get": {
+        "tags": [
+          "Connect"
+        ],
+        "description": "Get the link to the chat room page",
+        "operationId": "index",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Arriving at the Connected Rooms page",
+            "content": {
+              "text/html": {
+              }
+            }
+          }
+        }
+      }
+    },
+    "/list/add": {
+      "post": {
+        "tags": [
+          "Story List"
+        ],
+        "description": "Insert story into mongodb",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Insert story successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "msg": {
+                      "type": "string",
+                      "example": "success"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "msg": {
+                      "type": "string",
+                      "example": "success"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/list": {
+      "get": {
+        "tags": [
+          "Story List"
+        ],
+        "description": "Insert story into mongodb",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Insert story successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Document"
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Document"
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Document": {
+        "type": "object",
+        "properties": {
+          "creat_name": {
+            "type": "string",
+            "example": "creat_name"
+          },
+          "creat_title": {
+            "type": "string",
+            "example": "creat_title"
+          },
+          "creat_Details": {
+            "type": "string",
+            "example": "creat_Details"
+          },
+          "time": {
+            "type": "string",
+            "example": "Date"
+          },
+          "creat_image_url": {
+            "type": "string",
+            "example": "creat_image_url"
+          }
+        },
+        "xml": {
+          "name": "Document"
+        }
+      }
+    }
+  }
+}

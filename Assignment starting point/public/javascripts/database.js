@@ -146,7 +146,6 @@ window.storeKnowsData = storeKnowsData;
  * @param sumValue: roomNo,name,chat_input
  */
 async function getChatData(sumValue) {
-    // console.log("666" + sumValue)
     if (!db)
         await initDatabase();
     if (db) {

@@ -49,9 +49,11 @@ async function initDatabase() {
         console.log('db created');
     }
 }
-
 window.initDatabase = initDatabase;
 
+/**
+ * Execute this method to delete the canvas indexedDB database
+ */
 async function deleteDatabase() {
     if (!db)
         await initDatabase();
@@ -61,7 +63,6 @@ async function deleteDatabase() {
 
     }
 }
-
 window.deleteDatabase = deleteDatabase;
 
 /**
@@ -86,7 +87,6 @@ async function storeSumData(sumObject) {
     }
 
 }
-
 window.storeSumData = storeSumData;
 
 /**
@@ -112,7 +112,6 @@ async function storeCanvasData(sumObject) {
     }
 
 }
-
 window.storeCanvasData = storeCanvasData;
 
 /**
@@ -139,7 +138,6 @@ async function storeKnowsData(sumObject) {
     }
 
 }
-
 window.storeKnowsData = storeKnowsData;
 
 /**
@@ -178,7 +176,6 @@ async function getChatData(sumValue) {
     }
 
 }
-
 window.getChatData = getChatData;
 
 /**
@@ -186,15 +183,16 @@ window.getChatData = getChatData;
  * if the database is not supported, it will use localstorage
  * @param sumValue: roomNo: room,name:userId,canvas_width,canvas_height,prevX,prevY,currX,color,thickness
  */
-async function getCanvasData(sumValue) {
+async function getCanvasData(name,roomNo) {
     if (!db)
         await initDatabase();
     if (db) {
-        console.log('fetching: ' + sumValue);
+        console.log('fetching: ' + name);
         let tx = await db.transaction(CANVAS_STORE_NAME, 'readonly');
         let store = await tx.objectStore(CANVAS_STORE_NAME);
         let index = await store.index('name_roomNo');
-        let readingsList = await index.getAll(IDBKeyRange.only([name, roomNo]));
+        console.log([name,roomNo])
+        let readingsList = await index.getAll(IDBKeyRange.only([name,roomNo]));
         await tx.complete;
         if (readingsList && readingsList.length > 0) {
             for (let elem of readingsList)
@@ -214,7 +212,6 @@ async function getCanvasData(sumValue) {
     }
 
 }
-
 window.getCanvasData = getCanvasData;
 
 /**
@@ -225,18 +222,13 @@ async function getKnowData() {
     if (!db)
         await initDatabase();
     if (db) {
-        console.log('走到了最后一步取数据');
         let tx = await db.transaction(KNOW_STORE_NAME, 'readonly');
         let store = await tx.objectStore(KNOW_STORE_NAME);
-        console.log("这是readingsList0")
         let index = await store.index('name_roomNo');
-        console.log("这是readingsList1")
         let readingsList = await index.getAll(IDBKeyRange.only([name, roomNo]));
-        console.log("这是readingsList2")
         await tx.complete;
         console.log(readingsList)
         if (readingsList && readingsList.length > 0) {
-            console.log("这里是list4")
             for (let elem of readingsList)
                 addToKnowledge(elem);// Show chat transcript
         } else {
@@ -254,5 +246,4 @@ async function getKnowData() {
     }
 
 }
-
 window.getKnowData = getKnowData;

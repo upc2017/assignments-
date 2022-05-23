@@ -53,6 +53,47 @@ function storySubmitForm() {
         .catch(error => console.log("error  inserting: " + JSON.stringify(error)))
 }
 
+function showStory(){
+    axios.get(
+        '/list'
+    )
+        .then(response => {
+            let data=response.data
+            console.log(data)
+            if(data.code == 1){
+                if(data.data && data.data.length > 0){
+                    console.log("add from mongodb")
+                    data.data.forEach((d,i)=>{
+                        var date = new Date(d.time);
+                        var dateStr = date.getFullYear()+"-" +(1+date.getMonth())+
+                            "-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+                        $('#show_story').append(_generateGridContent(d._id,dateStr, d.creat_title, d.creat_Details, d.creat_name,
+                            d.creat_image_url));
+                        console.log("start")
+                        storyIndexedDB(d._id,dateStr, d.creat_title, d.creat_Details, d.creat_name,
+                            d.creat_image_url);
+                    })
+                }
+
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });;
+}
+
+function storyIndexedDB(id,dataStr,title,details,name,imgUrl){
+    storeStoryData({
+        story_id:id,
+        creat_name: name,
+        creat_title: title,
+        time: dataStr,
+        creat_Details: details,
+        creat_image_url: imgUrl
+    })
+        .then(response => console.log('storeStoryData inserting worked!!'))
+        .catch(error => console.log("error  inserting: " + JSON.stringify(error)))
+}
 /**
  * Fetch data from a chatDatabase
  */
@@ -69,7 +110,7 @@ function get_history() {
 function get_canvas_history() {
     let data = serialiseForm();
     console.log(data)
-    getCanvasData(data.name)
+    getCanvasData(data.name,data.roomNo)
         .then(response => console.log('getCanvasData(),getting sum worked!!'))
         .catch(error => console.log("error  getting: " + +JSON.stringify(error)))
 
@@ -138,23 +179,11 @@ function addToKnowledge(dataR) {
     showKGTag(dataR.data);
 }
 
-/**
- * Display the fetched story data
- */
-function addToStory(dataR) {
-    console.log("1")
-    // let show_story = document.getElementById('render_story');
-    // let paragraph = document.createElement('p');
-    //     paragraph.innerHTML = "Me:"+dataR.creat_Details;
-    //      show_story.appendChild(paragraph);
-    /*$('#show_story').append(_generateGridContent(dataR.time, dataR.creat_title, dataR.creat_Details, dataR.creat_name,
-        dataR.creat_image_url));*/
-}
 
 /**
  * Fetch data from MongoDB to render the home page
  */
-const _generateGridContent = (time, title, details, name, url) => {
+const _generateGridContent = (id,time, title, details, name, url) => {
     return `<div  class="card m-5 col-3" style="width: 18rem;">
         <img id="render_story_img"  src="${url}"
              class=" card-img-top ">
@@ -167,7 +196,7 @@ const _generateGridContent = (time, title, details, name, url) => {
             <li class="list-group-item">on ${time}</li>
         </ul>
         <div class="card-body">
-            <a id="url_image" href="/index?imgurl=${url}" class="btn btn-primary">Enter the Story</a>
+            <a id="url_image" href="/index?imgurl=${id}" class="btn btn-primary">Enter the Story</a>
         </div>`;
 }
 
@@ -184,7 +213,9 @@ function getFormatDate() {
     let second = nowDate.getSeconds() < 10 ? "0" + nowDate.getSeconds() : nowDate.getSeconds();
     return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
 }
-
+/**
+ *  Called when getting the current time for storing data
+ */
 function get_story_history1() {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker
@@ -196,4 +227,17 @@ function get_story_history1() {
     getStoryData()
         .then(response => console.log('getting sum worked!!'))
         .catch(error => console.log("error  getting: " + +JSON.stringify(error)))
+}
+
+function getUrl(){
+    var url = document.location.toString();//Get current URL
+    var arrUrl = url.split("?");//Splitting?
+    var para = arrUrl[1];//Get Parameters section
+    var arr = para.split("=");//Splitting =
+    var res = arr[1];//Get the value of the parameter
+    // getImgInfo(res);
+    getStoryImgData(res)
+        .then(response => console.log('getting sum worked!!'))
+        .catch(error => console.log("error  getting: " + +JSON.stringify(error)))
+    // return res;
 }

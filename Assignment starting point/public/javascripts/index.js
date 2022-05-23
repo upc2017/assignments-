@@ -69,8 +69,7 @@ function sendChatText() {
 function connectToRoom() {
     roomNo = document.getElementById('roomNo').value;
     name = document.getElementById('name').value;
-    // let imageUrl = document.getElementById('image_url').value;
-    let imageUrl = GetUrlPara();
+    let imageUrl =document.getElementById('endImg').src
     if (!name) name = 'Unknown-' + Math.random();
     //@join the room
     chat.emit('create or join', roomNo, name);

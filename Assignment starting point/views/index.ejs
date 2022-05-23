@@ -11,6 +11,7 @@
     <script src="/javascripts/indexedDB.js"></script>
     <script src="/javascripts/bootstrap_js/bootstrap.min.js"></script>
     <script src="/javascripts/database.js" type="module"></script>
+    <script src="/javascripts/story_database.js" type="module"></script>
     <script src="/javascripts/idb/index.js" type="module"></script>
     <link rel="stylesheet" href="/stylesheets/bootstrap_css/bootstrap.css">
     <!--Knowledge graph-->
@@ -22,11 +23,11 @@
 
 
 </head>
-<body onload="init()">
+<body onload="init();getUrl()">
 <div class="offline_div" id="offline_div" style="display: none">You are offline</div>
 <div id="initial_form" style="display: block">
     <h1>Join or Create The Room</h1><br><br>
-    <img id="render_story_img"  src=""><br><br>
+    <img id="indexStory_img"  src=""><br><br>
     <form onsubmit="return false;">
         <p><label for="name"> Your name </label>
             <input type="text" id="name" name="name">
@@ -80,7 +81,7 @@
         <!-- Image and Canvas area -->
         <div class="col">
             <div class="p-2 d-flex justify-content-center align-items-center">
-                <img id="image" height="100%">
+                <img id="endImg" height="100%">
                 <canvas id="canvas"></canvas>
             </div>
         </div>
@@ -111,22 +112,5 @@
 
 <br><br><br>
 <a class="btn btn-primary" href="/" role="button">Return Story list</a>
-<script>
-    function GetUrlPara(){
-        var url = document.location.toString();//获取当前URL
-        var arrUrl = url.split("?");//分割？
-        var para = arrUrl[1];//获取参数部分
-        var arr = para.split("=");//分割=
-        var res = arr[1];//获取参数的值
-        return res;
-    }
-    console.log(GetUrlPara())
-    document.getElementById("render_story_img").src=GetUrlPara()
-
-    document.getElementById("image").src=GetUrlPara()
-
-    //传值
-
-</script>
 </body>
 </html>

@@ -26,9 +26,8 @@ async function initStoryDatabase(){
                         keyPath: 'id',
                         autoIncrement: true
                     });
-                    sumsDB.createIndex('name', 'creat_name', {unique: false, multiEntry: true});
+                    sumsDB.createIndex('id', 'story_id', {unique: false, multiEntry: true});
                     sumsDB.createIndex('time', 'time', {unique: false, multiEntry: true});
-                    sumsDB.createIndex('storyDetails', 'creat_Details', {unique: false, multiEntry: true});
                     sumsDB.createIndex('storyTitle', 'creat_title', {unique: false, multiEntry: true});
                 }
             }
@@ -97,3 +96,24 @@ async function getStoryData() {
 
 }
 window.getStoryData= getStoryData;
+
+/**
+ * it retrieves all the img from the database
+ * if the database is not supported, it will use localstorage
+ * @returns objects like {img}
+ */
+async function getStoryImgData(urlID) {
+    if (!db)
+        await initStoryDatabase();
+    if (db) {
+        console.log(urlID)
+        let tx = await db.transaction(STORY_STORE_NAME, 'readonly');
+        let store = await tx.objectStore(STORY_STORE_NAME);
+        let index = await store.index('id');
+        let readingsList = await index.getAll(IDBKeyRange.only(urlID));
+        document.getElementById('indexStory_img').src=readingsList[0].creat_image_url;
+        document.getElementById('endImg').src=readingsList[0].creat_image_url;
+        await tx.complete;
+    }
+}
+window.getStoryImgData= getStoryImgData;
